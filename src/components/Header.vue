@@ -1,104 +1,146 @@
 <template>
-    <header class="header">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <header>
+        <div class="bg-dark collapse" id="navbarHeader">
             <div class="container">
-                <a class="navbar-brand" href="#">Navbar</a>
+                <div class="row">
+                    <div class="about col-sm-8 col-md-7 py-4">
+                        <h4 class="text-white">About</h4>
+                        <p class="text-muted">
+                            Add some information about the album below, the
+                            author, or any other background context. Make it a
+                            few sentences long so folks can pick up some
+                            informative tidbits. Then, link them off to some
+                            social networking sites or contact information.
+                        </p>
+                    </div>
+                    <div class="contact col-sm-4 offset-md-1 py-4">
+                        <h4 class="text-white">Contact</h4>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="#" class="text-white"
+                                    >Follow on Twitter</a
+                                >
+                            </li>
+                            <li>
+                                <a href="#" class="text-white"
+                                    >Like on Facebook</a
+                                >
+                            </li>
+                            <li><a href="#" class="text-white">Email me</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar navbar-dark bg-dark shadow-sm">
+            <div class="container">
+                <div class="navbar-brand d-flex align-items-center dropdown">
+                    <a
+                        class="btn btn-secondary dropdown-toggle"
+                        href="#"
+                        role="button"
+                        id="dropdownMenuLink"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        @click.prevent="openDropdownMenu"
+                    >
+                        <span class="brand_title me-2">
+                            <strong>Choose Platform</strong>
+                        </span>
+                    </a>
+
+                    <ul
+                        class="dropdown-menu"
+                        aria-labelledby="dropdownMenuLink"
+                    >
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-cubes" aria-label="Stocks"></i>
+                                Stocks
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i
+                                    class="fab fa-bitcoin"
+                                    aria-label="Crypto"
+                                ></i>
+                                Crypto
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
                 <button
-                    class="navbar-toggler"
+                    class="navbar-toggler collapsed"
                     type="button"
                     data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
+                    data-bs-target="#navbarHeader"
+                    aria-controls="navbarHeader"
                     aria-expanded="false"
                     aria-label="Toggle navigation"
+                    @click="openNav"
                 >
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div
-                    class="collapse navbar-collapse"
-                    id="navbarSupportedContent"
-                >
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a
-                                class="nav-link active"
-                                aria-current="page"
-                                href="#"
-                                >Home</a
-                            >
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a
-                                class="nav-link dropdown-toggle"
-                                href="#"
-                                id="navbarDropdown"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                            >
-                                Dropdown
-                            </a>
-                            <ul
-                                class="dropdown-menu"
-                                aria-labelledby="navbarDropdown"
-                            >
-                                <li>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#"
-                                        >Another action</a
-                                    >
-                                </li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li>
-                                    <a class="dropdown-item" href="#"
-                                        >Something else here</a
-                                    >
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled">Disabled</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex">
-                        <input
-                            class="form-control me-2"
-                            type="search"
-                            placeholder="Search"
-                            aria-label="Search"
-                        />
-                        <button class="btn btn-outline-success" type="submit">
-                            Search
-                        </button>
-                    </form>
-                </div>
             </div>
-        </nav>
+        </div>
     </header>
 </template>
 
 <script>
-export default {};
+import $ from "jquery";
+
+export default {
+    data() {
+        return {};
+    },
+    methods: {
+        openNav() {
+            $(".collapse").toggle("show_nav_item");
+        },
+        openDropdownMenu() {
+            $(".dropdown-menu").toggle("show_nav_item");
+        },
+    },
+};
 </script>
 
 <style scoped>
-h3 {
-    margin: 40px 0 0;
+header {
+    position: sticky;
+    width: 100%;
+    top: 0;
 }
-ul {
-    list-style-type: none;
-    padding: 0;
+
+.dropdown-toggle::after {
+    vertical-align: 0.175em;
 }
-li {
-    display: inline-block;
-    margin: 0 10px;
+
+.dropdown-menu {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    padding: 0.15rem;
+    min-width: 7.5rem;
 }
-a {
-    color: #42b983;
+
+.dropdown-item {
+    text-align: center;
+    border-radius: 2px;
+    font-size: 1rem;
+}
+
+.show_nav_item {
+    display: block;
+}
+
+.about p {
+    font-size: 0.875rem;
+}
+
+.contact a {
+    font-size: 0.75rem;
 }
 </style>
