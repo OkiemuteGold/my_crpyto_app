@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12 col-md-6 col-lg-4 feature_item">
+    <div class="col-12 col-md-6 col-lg-4 feature_item" v-if="assetProfile">
         <div class="card shadow-sm">
             <img
                 src="../assets/images/samp1.jpg"
@@ -14,13 +14,12 @@
 
             <div class="card-body">
                 <h5 class="card-title">
-                    <a href="">Title</a>
+                    <a href="">{{ assetProfile.sector }}</a>
                 </h5>
 
                 <p class="card-text">
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content. This content is a little bit
-                    longer.
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
+                    porro consectetur cupiditate error tempore quae.
                     <a href="">Read More</a>
                 </p>
 
@@ -47,7 +46,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+    props: ["stockDet"],
+    computed: {
+        assetProfile() {
+            return this.stockDet.assetProfile;
+        },
+    },
+
+    mounted() {
+        console.log(this.stockDet);
+    },
+};
 </script>
 
 <style scoped>
