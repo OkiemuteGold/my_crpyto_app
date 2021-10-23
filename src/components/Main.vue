@@ -6,7 +6,8 @@
                     <h1 class="fw-light">App Intro</h1>
                     <p class="lead text-muted">
                         Select platform to get all stock and crypto data
-                        available
+                        available or click any of the buttons below to visit the
+                        listed sections
                     </p>
                     <p>
                         <a href="#getStockDetails" class="btn btn-primary m-2"

@@ -16,16 +16,29 @@
                         <h4 class="text-white">Contact</h4>
                         <ul class="list-unstyled">
                             <li>
-                                <a href="#" class="text-white"
-                                    >Follow on Twitter</a
+                                <a
+                                    href="https://github.com/OkiemuteGold"
+                                    target="_blank"
+                                    class="text-white"
+                                    >Github</a
                                 >
                             </li>
                             <li>
-                                <a href="#" class="text-white"
-                                    >Like on Facebook</a
+                                <a
+                                    href="https://www.linkedin.com/in/okiemute-gold"
+                                    target="_blank"
+                                    class="text-white"
+                                    >LinkedIn</a
                                 >
                             </li>
-                            <li><a href="#" class="text-white">Email me</a></li>
+                            <li>
+                                <a
+                                    href="mailto: goldokiemute1@gmail.com"
+                                    target="_blank"
+                                    class="text-white"
+                                    >Email me</a
+                                >
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -44,7 +57,7 @@
                         aria-expanded="false"
                     >
                         <span class="brand_title me-1">
-                            <strong>Choose Platform</strong>
+                            <strong>Select A Platform</strong>
                         </span>
                     </a>
 

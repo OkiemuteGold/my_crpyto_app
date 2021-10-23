@@ -28,7 +28,7 @@ export const fetchCompanyInfo = async ({ commit, state }) => {
     let options = {
         method: 'GET',
         params: {
-            modules: 'defaultKeyStatistics,assetProfile',
+            modules: 'financialData,calendarEvents,defaultKeyStatistics,summaryDetail,assetProfile,insiderTransactions,recommendationTrend,sectorTrend,earningsTrend,earningsHistory',
         },
         headers: {
             'x-api-key': state.apiKey,
