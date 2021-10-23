@@ -9,11 +9,13 @@
                         available
                     </p>
                     <p>
-                        <a href="" class="btn btn-primary m-2"
-                            >Main call to action</a
+                        <a href="#getStockDetails" class="btn btn-primary m-2"
+                            >Get Stock Details</a
                         >
-                        <a href="" class="btn btn-secondary m-2"
-                            >Secondary action</a
+                        <a
+                            href="#generalMarketTopics"
+                            class="btn btn-secondary m-2"
+                            >General Market Topics</a
                         >
                     </p>
                 </div>
@@ -34,27 +36,13 @@
             </div>
         </section>
 
-        <!-- <section class="section_bg_right">
-            <div class="inner_container">
-                <div class="container">
-                    <div class="row" v-if="stockDetails.length > 0">
-                        <FeatureItem
-                            v-for="(stockDet, index) in stockDetails"
-                            :key="index"
-                            :stockDet="stockDet"
-                        />
-                    </div>
-                </div>
-            </div>
-        </section> -->
-
-        <section class="bg-white">
+        <section class="bg-white pt-0" id="getStockDetails">
             <div class="inner_container">
                 <div class="container">
                     <div class="row">
                         <div class="section_head col-12 text-center">
                             <img
-                                src="../../public/img/img_icons/mid4_fin_search.svg"
+                                src="../../public/img/img_icons/mid1_fin_search.svg"
                                 alt=""
                                 width="100"
                                 height="100"
@@ -69,11 +57,63 @@
                 </div>
             </div>
         </section>
+
+        <section class="section_bg_right pt-0" id="generalMarketTopics">
+            <div class="inner_container">
+                <div class="container">
+                    <div class="row">
+                        <div class="section_head col-12 text-center">
+                            <img
+                                src="../../public/img/img_icons/mid2_fin.svg"
+                                alt=""
+                                width="100"
+                                height="100"
+                                class="mb-2"
+                            />
+
+                            <h2>General Market Topics</h2>
+                        </div>
+
+                        <div class="feature_buttons mb-5 text-center">
+                            <span class="btn btn-outline-secondary m-2">
+                                Technology
+                            </span>
+                            <span class="btn btn-outline-secondary active m-2">
+                                IPOs
+                            </span>
+                            <span class="btn btn-outline-secondary m-2">
+                                Videos
+                            </span>
+                            <span class="btn btn-outline-secondary m-2">
+                                Press Release
+                            </span>
+                            <span class="btn btn-outline-secondary m-2">
+                                Technical Analysis
+                            </span>
+                            <span class="btn btn-outline-secondary m-2">
+                                Articles
+                            </span>
+                            <span class="btn btn-outline-secondary m-2">
+                                Upcoming Earnings
+                            </span>
+                        </div>
+
+                        <div v-if="companyInfo.length > 0">
+                            <FeatureItem
+                                v-for="(info, index) in companyInfo"
+                                :key="index"
+                                :info="info"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 </template>
 
 <script>
-// import FeatureItem from "./FeatureItem.vue";
+import FeatureItem from "./FeatureItem.vue";
 import PageIntro from "./PageIntro.vue";
 import MainCompanyInfo from "./mainCompanyInfo.vue";
 
@@ -82,12 +122,12 @@ import { mapGetters } from "vuex";
 export default {
     name: "Home",
     components: {
-        // FeatureItem,
+        FeatureItem,
         PageIntro,
         MainCompanyInfo,
     },
     computed: {
-        ...mapGetters(["stockDetails"]),
+        ...mapGetters(["companyInfo", "stockDetails"]),
     },
     data() {
         return {
@@ -123,4 +163,7 @@ export default {
 </script>
 
 <style scoped>
+.feature_buttons span.active {
+    background-color: #6c757d;
+}
 </style>

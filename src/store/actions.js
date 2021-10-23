@@ -22,7 +22,8 @@ export const fetchStockDetails = async ({ commit, state }) => {
 }
 
 export const fetchCompanyInfo = async ({ commit, state }) => {
-    let url = `${state.baseURL}/v11/finance/quoteSummary/AAPL`;
+    let tickerSymbols = "AAPL";
+    let url = `${state.baseURL}/v11/finance/quoteSummary/${tickerSymbols}`;
 
     let options = {
         method: 'GET',

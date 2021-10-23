@@ -38,7 +38,9 @@
                             <i class="fas fa-share"></i>
                         </button>
                     </div>
-                    <small class="text-muted">9 mins</small>
+                    <small class="text-muted">
+                        <span class="time">9</span> mins ago
+                    </small>
                 </div>
             </div>
         </div>
@@ -47,15 +49,15 @@
 
 <script>
 export default {
-    props: ["stockDet"],
+    props: ["info"],
     computed: {
         assetProfile() {
-            return this.stockDet.assetProfile;
+            return this.info.assetProfile;
         },
     },
 
     mounted() {
-        console.log(this.stockDet);
+        console.log(this.info);
     },
 };
 </script>

@@ -77,6 +77,20 @@
                         Contact
                     </button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button
+                        class="nav-link"
+                        id="newsEvents-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#newsEvents"
+                        type="button"
+                        role="tab"
+                        aria-controls="newsEvents"
+                        aria-selected="false"
+                    >
+                        News &amp; Events
+                    </button>
+                </li>
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div
@@ -100,6 +114,14 @@
                     id="contact"
                     role="tabpanel"
                     aria-labelledby="contact-tab"
+                >
+                    ...
+                </div>
+                <div
+                    class="tab-pane fade"
+                    id="newsEvents"
+                    role="tabpanel"
+                    aria-labelledby="newsEvents-tab"
                 >
                     ...
                 </div>
@@ -203,5 +225,27 @@ export default {
 
 .profile_container {
     max-width: 800px;
+}
+
+/* nav tabs */
+.nav-tabs {
+    border-bottom-width: 2px;
+}
+
+.nav-tabs .nav-link {
+    color: #6c757d;
+    border-color: #eee;
+    margin-right: 5px;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    color: #0d6ef8;
+    background-color: #f8f8f8;
+    border-width: 2px;
+}
+
+.tab-content > .tab-pane {
+    padding: 5px 15px;
 }
 </style>
