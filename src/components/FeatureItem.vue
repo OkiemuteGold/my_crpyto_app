@@ -59,6 +59,7 @@
 <script>
 export default {
     props: ["info"],
+
     computed: {
         assetProfile() {
             return this.info.assetProfile;
@@ -139,6 +140,7 @@ button i {
     padding-right: 5px;
     margin-bottom: 10px;
     transition: 0.3s linear;
+    cursor: ns-resize;
 }
 
 .card-text:hover .desc {

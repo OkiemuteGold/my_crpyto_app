@@ -53,8 +53,10 @@ export default {
 
 /* @import "https://fonts.googleapis.com/css?family=Just+Another+Hand"; */
 
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap");
+
 @import url("https://fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i");
-@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");
+/* @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"); */
 
 *,
 *::before,
@@ -63,26 +65,28 @@ export default {
     padding: 0;
 }
 
+:root {
+    --customWhite: #f8f8f8;
+    --lightGray: #b4b4b4;
+    --textColor: #6c757d;
+    --fontJosefin: "Josefin Sans", "Helvetica Neue", Helvetica, Arial,
+        sans-serif;
+    --fontNunito: "Nunito", sans-serif;
+    --size14: 0.875rem;
+}
+
 body {
-    font-weight: 400;
-    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.0625rem;
-    /* color: #2c3e50; */
-    color: #55565b;
+    font-size: var(--size14);
+    letter-spacing: 0.5px;
     line-height: 2.1;
-    scroll-behavior: smooth;
 }
 
 #app {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
     overflow-x: hidden;
 }
-
-/* #nav a.router-link-exact-active {
-    color: #42b983;
-} */
 
 section {
     padding-top: 80px;

@@ -37,7 +37,7 @@
             </div>
         </section>
 
-        <section class="bg-white pt-0" id="getStockDetails">
+        <section class="bg-white" id="getStockDetails">
             <div class="inner_container">
                 <div class="container">
                     <div class="row">
@@ -53,9 +53,17 @@
                             <h2>Get Stock Details</h2>
                         </div>
 
-                        <MainCompanyInfo />
+                        <div v-if="companyInfo.length > 0">
+                            <MainCompanyInfo
+                                v-for="(info, index) in companyInfo"
+                                :key="index"
+                                :info="info"
+                            />
+                        </div>
                     </div>
                 </div>
+
+                <!-- <hr /> -->
             </div>
         </section>
 
@@ -165,6 +173,6 @@ export default {
 
 <style scoped>
 .feature_buttons span.active {
-    background-color: #6c757d;
+    background-color: var(--textColor);
 }
 </style>

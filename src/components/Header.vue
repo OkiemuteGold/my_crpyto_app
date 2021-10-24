@@ -93,9 +93,6 @@
                     aria-expanded="false"
                     aria-label="Toggle navigation"
                 >
-                    <!-- <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span> -->
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
@@ -123,7 +120,7 @@ export default {
 
 <style scoped>
 header {
-    position: sticky;
+    position: fixed;
     width: 100%;
     top: 0;
     z-index: 1;
@@ -153,57 +150,16 @@ header {
 } */
 
 .about p {
-    font-size: 0.875rem;
+    font-size: var(--size14);
 }
 
 .contact a {
-    font-size: 0.75rem;
+    font-size: 0.825rem;
+    text-decoration: 1.5px underline var(--textColor);
 }
 
-/* toggler */
-/* .navbar-toggler .icon-bar {
-    width: 22px;
-    -webkit-transition: all 0.2s;
-    transition: all 0.2s;
+.contact a:hover {
+    text-decoration: none var(--textColor);
+    color: var(--lightGray) !important;
 }
-
-.navbar-toggler .icon-bar:nth-of-type(1) {
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    -webkit-transform-origin: 10% 10%;
-    -ms-transform-origin: 10% 10%;
-    transform-origin: 10% 10%;
-}
-
-.navbar-toggler .icon-bar:nth-of-type(2) {
-    opacity: 0;
-    filter: alpha(opacity=0);
-}
-
-.navbar-toggler .icon-bar:nth-of-type(3) {
-    -webkit-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-    -webkit-transform-origin: 10% 90%;
-    -ms-transform-origin: 10% 90%;
-    transform-origin: 10% 90%;
-}
-
-.navbar-toggler.collapsed .icon-bar:nth-of-type(1) {
-    -webkit-transform: rotate(0);
-    -ms-transform: rotate(0);
-    transform: rotate(0);
-}
-
-.navbar-toggler.collapsed .icon-bar:nth-of-type(2) {
-    opacity: 1;
-    filter: alpha(opacity=100);
-}
-
-.navbar-toggler.collapsed .icon-bar:nth-of-type(3) {
-    -webkit-transform: rotate(0);
-    -ms-transform: rotate(0);
-    transform: rotate(0);
-} */
 </style>

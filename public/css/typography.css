@@ -4,27 +4,29 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Josefin Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin: 0 0 0.9375rem;
+  font-family: var(--fontJosefin);
   font-weight: 500;
+  margin: 0 0 0.9375rem;
   line-height: 1.1;
 }
 
 a {
-  font-size: 0.875rem;
-  text-decoration-color: #6c757d !important;
-  transition: 0.3s ease-in-out;
+  font-size: var(--size14);
+  transition: 0.3s ease;
+  text-decoration: none;
 }
 
-a:hover {
-  text-decoration: none;
+p {
+  font-family: var(--fontNunito);
+  font-size: var(--size14);
+  color: var(--textColor);
 }
 
 p.lead,
 .btn {
-  font-family: "Josefin Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--fontJosefin);
 }
 
 .card-text {
-  font-size: 0.875rem;
+  font-size: var(--size14);
 }

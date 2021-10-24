@@ -21,23 +21,18 @@
                     class="btn btn-secondary"
                     id="search_button"
                     @click="searchStock"
-                    :disabled="invalidIput"
+                    :disabled="invalidInput"
                 >
                     Search
                 </button>
             </div>
         </form>
 
-        <div
-            class="profile_container mt-4 mx-auto p-0 p-md-4"
-            v-if="searchStock"
-        >
-            <h3 class="mb-4">{{ stockSymbol | upperCased }}</h3>
-
+        <div class="profile_container mx-auto mt-md-5" v-if="searchStock">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button
-                        class="nav-link"
+                        class="nav-link active"
                         id="profile-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#profile"
@@ -51,7 +46,7 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <button
-                        class="nav-link active"
+                        class="nav-link"
                         id="earnings-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#earnings"
@@ -92,17 +87,113 @@
                     </button>
                 </li>
             </ul>
-            <div class="tab-content" id="myTabContent">
+
+            <div
+                class="tab-content"
+                id="myTabContent"
+                v-if="assetProfile || defaultKeyStatistics"
+            >
                 <div
-                    class="tab-pane fade"
+                    class="tab-pane fade show active"
                     id="profile"
                     role="tabpanel"
                     aria-labelledby="profile-tab"
                 >
-                    ...
+                    <div
+                        class="
+                            loading_container
+                            d-flex
+                            justify-content-center
+                            align-items-center
+                            mt-4
+                        "
+                        v-if="name && loading"
+                    >
+                        <h6 class="mb-0">Fetching Data...</h6>
+
+                        <span
+                            class="spinner-border text-primary"
+                            role="status"
+                        ></span>
+                        <span class="visually-hidden"
+                            >Fetching Data, Please Wait...</span
+                        >
+                    </div>
+
+                    <span v-if="!loading">
+                        <div class="info_item">
+                            <h6>
+                                Symbol:
+                                <span class="text">{{ name }}</span>
+                            </h6>
+                        </div>
+
+                        <div class="info_item">
+                            <h6>
+                                Sector:
+                                <span class="text">{{
+                                    assetProfile.sector
+                                }}</span>
+                            </h6>
+                        </div>
+
+                        <div class="info_item">
+                            <h6>
+                                Industry:
+                                <span class="text">{{
+                                    assetProfile.industry
+                                }}</span>
+                            </h6>
+                        </div>
+
+                        <div class="info_item">
+                            <h6>
+                                Company Officers:
+                                <span class="text">{{
+                                    assetProfile.companyOfficers.length
+                                }}</span>
+                            </h6>
+                        </div>
+
+                        <div class="info_item">
+                            <h6>
+                                Fulltime Employees:
+                                <span class="text">{{
+                                    assetProfile.fullTimeEmployees
+                                }}</span>
+                            </h6>
+                        </div>
+
+                        <div class="info_item">
+                            <h6>
+                                Business Summary:
+                                <span class="text">{{
+                                    assetProfile.longBusinessSummary
+                                }}</span>
+                            </h6>
+                        </div>
+
+                        <div class="info_item">
+                            <h6>
+                                Address:
+                                <span class="text">{{
+                                    `${assetProfile.address1}, ${assetProfile.city}, ${assetProfile.state}, ${assetProfile.country}`
+                                }}</span>
+                            </h6>
+                        </div>
+
+                        <div class="info_item">
+                            <h6>
+                                Website:
+                                <span class="text">{{
+                                    assetProfile.website
+                                }}</span>
+                            </h6>
+                        </div>
+                    </span>
                 </div>
                 <div
-                    class="tab-pane fade show active"
+                    class="tab-pane fade"
                     id="earnings"
                     role="tabpanel"
                     aria-labelledby="earnings-tab"
@@ -131,30 +222,55 @@
 </template>
 
 <script>
+// import { mapGetters } from "vuex";
+
 export default {
-    props: ["item"],
-    data() {
-        return {
-            stockSymbol: "",
-        };
-    },
+    props: ["info"],
+
     computed: {
-        invalidIput() {
+        // ...mapGetters(["stockDetails"]),
+
+        assetProfile() {
+            return this.info.assetProfile;
+        },
+        defaultKeyStatistics() {
+            return this.info.defaultKeyStatistics;
+        },
+        invalidInput() {
             return this.stockSymbol === "";
         },
     },
-    methods: {
-        searchStock() {
-            if (this.stockSymbol !== "") {
-                console.log(this.stockSymbol.toUpperCase());
-            }
-            this.stockSymbol = "";
-        },
+
+    data() {
+        return {
+            stockSymbol: "",
+            name: "",
+            loading: true,
+        };
     },
+
     filters: {
         upperCased: function (value) {
             return value.toUpperCase();
         },
+    },
+
+    methods: {
+        searchStock() {
+            if (!this.invalidInput) {
+                setTimeout(() => {
+                    this.loading = false;
+                }, 1500);
+
+                this.name = this.stockSymbol.toUpperCase();
+            }
+            this.stockSymbol = "";
+            this.loading = true;
+        },
+    },
+
+    mounted() {
+        console.log(this.info);
     },
 };
 </script>
@@ -173,7 +289,7 @@ export default {
     padding-left: 6px;
     padding-right: 6px;
     font-size: 0.95rem;
-    color: #6c757d;
+    color: var(--textColor);
     border-radius: 4px;
     transition: 0.3s ease-in-out;
     cursor: text;
@@ -183,14 +299,13 @@ export default {
     padding: 11px 15px;
     transition: 0.3s ease-in-out;
     font-size: 0.95rem;
-    font-weight: 500;
     letter-spacing: 1px;
-    color: #6c757d;
+    color: var(--textColor);
     /* text-transform: uppercase; */
 }
 
 .stock_search_form input:hover {
-    border-color: #6c757d;
+    border-color: var(--textColor);
 }
 
 .stock_search_form input:valid {
@@ -224,7 +339,8 @@ export default {
 }
 
 .profile_container {
-    max-width: 800px;
+    max-width: 900px;
+    margin-top: 40px;
 }
 
 /* nav tabs */
@@ -232,20 +348,57 @@ export default {
     border-bottom-width: 2px;
 }
 
+.tab-content {
+    background-color: var(--customWhite);
+}
+
 .nav-tabs .nav-link {
-    color: #6c757d;
-    border-color: #eee;
+    font-family: var(--fontJosefin);
+    color: var(--textColor);
+    /* border-color: #eee; */
+    border-bottom-color: transparent !important;
     margin-right: 5px;
+    margin-bottom: -1.85px;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: #dee2e6;
 }
 
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
     color: #0d6ef8;
-    background-color: #f8f8f8;
+    background-color: var(--customWhite);
     border-width: 2px;
 }
 
+.nav-tabs .nav-link.active {
+    border-bottom-color: transparent;
+}
+
 .tab-content > .tab-pane {
-    padding: 5px 15px;
+    padding: 20px;
+}
+
+.tab-content > .tab-pane .loading_container h6 {
+    font-size: 1.125rem;
+    margin-right: 12px;
+    letter-spacing: 1px;
+    color: var(--textColor);
+}
+
+.tab-content > .tab-pane .info_item {
+    margin-bottom: 0.9375rem;
+}
+
+.tab-content > .tab-pane .info_item h6 {
+    line-height: 1.5rem;
+}
+
+.tab-content > .tab-pane .info_item .text {
+    font-family: var(--fontNunito);
+    font-size: var(--size14);
+    font-weight: 400 !important;
+    color: var(--textColor);
 }
 </style>
