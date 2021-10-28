@@ -3,7 +3,7 @@
         <div class="feature_image">
             <img
                 :src="item.icon"
-                :alt="`${item.title} icon`"
+                :alt="`${item.title} Icon`"
                 width="50"
                 height="50"
             />

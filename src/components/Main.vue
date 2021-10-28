@@ -3,7 +3,7 @@
         <section class="pt-5 pb-0 text-center container">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">App Intro</h1>
+                    <h1 class="fw-light p-2">App Intro</h1>
                     <p class="lead text-muted">
                         Select platform to get all stock and crypto data
                         available or click any of the buttons below to visit the
@@ -53,7 +53,7 @@
                             <h2>Get Stock Details</h2>
                         </div>
 
-                        <div v-if="companyInfo.length > 0">
+                        <div v-if="companyInfo && companyInfo.length > 0">
                             <MainCompanyInfo
                                 v-for="(info, index) in companyInfo"
                                 :key="index"
@@ -107,7 +107,7 @@
                             </span>
                         </div>
 
-                        <div v-if="companyInfo.length > 0">
+                        <div v-if="companyInfo && companyInfo.length > 0">
                             <FeatureItem
                                 v-for="(info, index) in companyInfo"
                                 :key="index"
@@ -136,7 +136,7 @@ export default {
         MainCompanyInfo,
     },
     computed: {
-        ...mapGetters(["companyInfo", "stockDetails"]),
+        ...mapGetters(["companyInfo"]),
     },
     data() {
         return {

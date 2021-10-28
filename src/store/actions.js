@@ -6,7 +6,7 @@ export const fetchStockDetails = async ({ commit, state }) => {
     let options = {
         method: 'GET',
         params: {
-            symbols: 'IDEX,AAPL,FSKR',
+            symbols: 'IDEX,AAPL,MSFT,GOOG',
         },
         headers: {
             'x-api-key': state.apiKey,
@@ -16,20 +16,19 @@ export const fetchStockDetails = async ({ commit, state }) => {
     await axios.get(url, options).then(response => {
         commit("FETCHED_STOCK_DETAILS", response.data.quoteResponse.result);
         console.log(response.data);
+
     }).catch(err => {
         console.log(err);
     });
 }
 
-export const fetchCompanyInfo = async ({ commit, state }) => {
-    let tickerSymbols = "AAPL";
+export const fetchCompanyInfo = async ({ commit, state }, tickerSymbols) => {
     let url = `${state.baseURL}/v11/finance/quoteSummary/${tickerSymbols}`;
 
     let options = {
         method: 'GET',
         params: {
-            modules: 'financialData,calendarEvents,defaultKeyStatistics,summaryDetail,assetProfile,insiderTransactions,recommendationTrend,sectorTrend,earningsTrend,earningsHistory',
-            symbol: tickerSymbols
+            modules: 'assetProfile,summaryDetail,calendarEvents,upgradeDowngradeHistory,insiderTransactions,defaultKeyStatistics,recommendationTrend,earningsHistory,earningsTrend,financialData,secFilings',
         },
         headers: {
             'x-api-key': state.apiKey,

@@ -10,7 +10,6 @@
                     aria-label="stock search input field"
                     required
                     v-model="stockSymbol"
-                    @keypress.enter="searchStock"
                 />
 
                 <label for="stockSearchInput" class="stock_search_label">
@@ -18,9 +17,9 @@
                 </label>
 
                 <button
+                    type="submit"
                     class="btn btn-secondary"
                     id="search_button"
-                    @click="searchStock"
                     :disabled="invalidInput"
                 >
                     Search
@@ -47,6 +46,20 @@
                 <li class="nav-item" role="presentation">
                     <button
                         class="nav-link"
+                        id="financials-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#financials"
+                        type="button"
+                        role="tab"
+                        aria-controls="financials"
+                        aria-selected="true"
+                    >
+                        Financials
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button
+                        class="nav-link"
                         id="earnings-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#earnings"
@@ -61,15 +74,15 @@
                 <li class="nav-item" role="presentation">
                     <button
                         class="nav-link"
-                        id="contact-tab"
+                        id="ownership-tab"
                         data-bs-toggle="tab"
-                        data-bs-target="#contact"
+                        data-bs-target="#ownership"
                         type="button"
                         role="tab"
-                        aria-controls="contact"
+                        aria-controls="ownership"
                         aria-selected="false"
                     >
-                        Contact
+                        Ownership
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -91,7 +104,14 @@
             <div
                 class="tab-content"
                 id="myTabContent"
-                v-if="assetProfile || defaultKeyStatistics"
+                v-if="
+                    assetProfile ||
+                    defaultKeyStatistics ||
+                    summaryDetail ||
+                    financialData ||
+                    earningsHistory ||
+                    calendarEvents
+                "
             >
                 <div
                     class="tab-pane fade show active"
@@ -127,7 +147,6 @@
                                 <span class="text">{{ name }}</span>
                             </h6>
                         </div>
-
                         <div class="info_item">
                             <h6>
                                 Sector:
@@ -136,7 +155,6 @@
                                 }}</span>
                             </h6>
                         </div>
-
                         <div class="info_item">
                             <h6>
                                 Industry:
@@ -145,7 +163,6 @@
                                 }}</span>
                             </h6>
                         </div>
-
                         <div class="info_item">
                             <h6>
                                 Company Officers:
@@ -154,7 +171,14 @@
                                 }}</span>
                             </h6>
                         </div>
-
+                        <div class="info_item">
+                            <h6>
+                                {{ assetProfile.companyOfficers[0].title }}:
+                                <span class="text">{{
+                                    assetProfile.companyOfficers[0].name
+                                }}</span>
+                            </h6>
+                        </div>
                         <div class="info_item">
                             <h6>
                                 Fulltime Employees:
@@ -163,7 +187,6 @@
                                 }}</span>
                             </h6>
                         </div>
-
                         <div class="info_item">
                             <h6>
                                 Business Summary:
@@ -172,7 +195,6 @@
                                 }}</span>
                             </h6>
                         </div>
-
                         <div class="info_item">
                             <h6>
                                 Address:
@@ -181,33 +203,502 @@
                                 }}</span>
                             </h6>
                         </div>
-
                         <div class="info_item">
                             <h6>
                                 Website:
-                                <span class="text">{{
-                                    assetProfile.website
-                                }}</span>
+                                <span class="text">
+                                    <a
+                                        :href="`${assetProfile.website}`"
+                                        target="_blank"
+                                    >
+                                        {{ assetProfile.website }}
+                                    </a>
+                                </span>
                             </h6>
                         </div>
                     </span>
                 </div>
+
+                <div
+                    class="tab-pane fade"
+                    id="financials"
+                    role="tabpanel"
+                    aria-labelledby="financials-tab"
+                >
+                    <div class="row">
+                        <!-- left -->
+                        <div class="col-12 col-md-6">
+                            <div class="info_item">
+                                <h6>
+                                    Current Price:
+                                    <span class="text">{{
+                                        financialData.currentPrice.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Previous Close:
+                                    <span class="text">{{
+                                        summaryDetail.previousClose.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Open:
+                                    <span class="text">{{
+                                        summaryDetail.open.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Day High:
+                                    <span class="text">{{
+                                        summaryDetail.dayHigh.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Day Low:
+                                    <span class="text">{{
+                                        summaryDetail.dayLow.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    52 Wk High:
+                                    <span
+                                        class="text"
+                                        title="Highest price at which a security e.g. stock, has traded during the time period of 1 year"
+                                        >{{
+                                            summaryDetail.fiftyTwoWeekHigh.fmt
+                                        }}</span
+                                    >
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    52 Wk Low:
+                                    <span
+                                        class="text"
+                                        title="Lowest price at which a security e.g. stock, has traded during the time period of 1 year"
+                                        >{{
+                                            summaryDetail.fiftyTwoWeekLow.fmt
+                                        }}</span
+                                    >
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    50 Day Average:
+                                    <span
+                                        class="text"
+                                        title="It's the first line of support in an uptrend or the first line of resistance in a downtrend"
+                                        >{{
+                                            summaryDetail.fiftyDayAverage.fmt
+                                        }}</span
+                                    >
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    200 Day Average:
+                                    <span
+                                        class="text"
+                                        title="Covers roughly 40 weeks of trading, and is commonly used to determine the general market trend"
+                                        >{{
+                                            summaryDetail.twoHundredDayAverage
+                                                .fmt
+                                        }}</span
+                                    >
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Target High Price:
+                                    <span class="text">{{
+                                        financialData.targetHighPrice.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Target Low Price:
+                                    <span class="text">{{
+                                        financialData.targetLowPrice.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Target Mean Price:
+                                    <span class="text">{{
+                                        financialData.targetMeanPrice.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                        </div>
+
+                        <!-- right -->
+                        <div class="col-12 col-md-6">
+                            <div class="info_item">
+                                <h6>
+                                    Volume:
+                                    <span
+                                        class="text"
+                                        title="Higher trade volumes for a stock mean higher liquidity, better order execution and a more active market for connecting a buyer and seller"
+                                    >
+                                        {{ summaryDetail.volume.fmt }}
+                                    </span>
+                                </h6>
+                                <h6>
+                                    Average Volume:
+                                    <span class="text">{{
+                                        summaryDetail.averageVolume.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Average Volume 10days:
+                                    <span
+                                        class="text"
+                                        title="The amount of an asset or security that changes hands over some period of 10 days"
+                                        >{{
+                                            summaryDetail.averageVolume10days
+                                                .fmt
+                                        }}</span
+                                    >
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Market Cap:
+                                    <span
+                                        class="text"
+                                        :title="`${summaryDetail.marketCap.longFmt}`"
+                                        >{{ summaryDetail.marketCap.fmt }}</span
+                                    >
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Revenue Growth:
+                                    <span class="text">{{
+                                        financialData.revenueGrowth.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Total Revenue:
+                                    <span class="text">{{
+                                        financialData.totalRevenue.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Total Cash:
+                                    <span class="text">{{
+                                        financialData.totalCash.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Total Debt:
+                                    <span class="text">{{
+                                        financialData.totalDebt.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Operating Cash flow:
+                                    <span class="text">
+                                        {{
+                                            financialData.operatingCashflow.fmt
+                                        }}
+                                    </span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Ex Dividend Date:
+                                    <span class="text">
+                                        <time
+                                            :datetime="`${summaryDetail.exDividendDate.fmt}`"
+                                            >{{
+                                                summaryDetail.exDividendDate.fmt
+                                            }}
+                                        </time>
+                                    </span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Div/Yield:
+                                    <span
+                                        class="text"
+                                        title="financial ratio (dividend/price) that shows how much a company pays out in dividends each year relative to its stock price"
+                                        >{{
+                                            summaryDetail.dividendYield.fmt
+                                        }}</span
+                                    >
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Trailing Annual Div/Yield:
+                                    <span
+                                        class="text"
+                                        title="Actual dividend payments relative to the share price over the previous 12 months"
+                                        >{{
+                                            summaryDetail
+                                                .trailingAnnualDividendYield.fmt
+                                        }}</span
+                                    >
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    5 Year Avg Div/Yield:
+                                    <span
+                                        class="text"
+                                        title="Actual dividend payments relative to the share price over the previous 12 months"
+                                        >{{
+                                            summaryDetail
+                                                .fiveYearAvgDividendYield.fmt
+                                        }}</span
+                                    >
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div
                     class="tab-pane fade"
                     id="earnings"
                     role="tabpanel"
                     aria-labelledby="earnings-tab"
                 >
-                    ...
+                    <div class="row">
+                        <!-- left -->
+                        <div class="col-12 col-md-6">
+                            <span
+                                v-for="(
+                                    history, index
+                                ) in earningsHistory.history"
+                                :key="index"
+                            >
+                                <div class="info_item">
+                                    <h6>
+                                        <abbr title="Earnings Per Share"
+                                            >EPS</abbr
+                                        >
+                                        Actual:
+                                        <span class="text">{{
+                                            history.epsActual.fmt
+                                        }}</span>
+                                    </h6>
+                                    <h6>
+                                        <abbr title="Earnings Per Share"
+                                            >EPS</abbr
+                                        >
+                                        Estimate:
+                                        <span class="text">{{
+                                            history.epsEstimate.fmt
+                                        }}</span>
+                                    </h6>
+                                    <h6>
+                                        <abbr title="Earnings Per Share"
+                                            >EPS</abbr
+                                        >
+                                        Difference:
+                                        <span class="text">{{
+                                            history.epsDifference.fmt
+                                        }}</span>
+                                    </h6>
+                                    <h6>
+                                        Period (Quarter):
+                                        <span class="text">
+                                            {{ history.period }}
+                                            (
+                                            <time
+                                                :datetime="`${history.quarter.fmt}`"
+                                                >{{ history.quarter.fmt }}</time
+                                            >
+                                            )
+                                        </span>
+                                    </h6>
+                                </div>
+                            </span>
+                        </div>
+
+                        <!-- right -->
+                        <div class="col-12 col-md-6">
+                            <div class="info_item">
+                                <h6>
+                                    Earnings Growth:
+                                    <span class="text">{{
+                                        financialData.earningsGrowth.fmt
+                                    }}</span>
+                                </h6>
+                                <span
+                                    v-for="(date, index) in calendarEvents
+                                        .earnings.earningsDate"
+                                    :key="index"
+                                >
+                                    <h6>
+                                        Earnings Date:
+                                        <span class="text">
+                                            <time :datetime="`${date.fmt}`">{{
+                                                date.fmt
+                                            }}</time>
+                                        </span>
+                                    </h6>
+                                </span>
+                                <h6>
+                                    Earnings High:
+                                    <span class="text">{{
+                                        calendarEvents.earnings.earningsHigh.fmt
+                                    }}</span>
+                                </h6>
+                                <h6>
+                                    Earnings Low:
+                                    <span class="text">{{
+                                        calendarEvents.earnings.earningsLow.fmt
+                                    }}</span>
+                                </h6>
+                                <h6>
+                                    Earnings Average:
+                                    <span class="text">{{
+                                        calendarEvents.earnings.earningsAverage
+                                            .fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Revenue High:
+                                    <span class="text">{{
+                                        calendarEvents.earnings.revenueHigh.fmt
+                                    }}</span>
+                                </h6>
+                                <h6>
+                                    Revenue Low:
+                                    <span class="text">{{
+                                        calendarEvents.earnings.revenueLow.fmt
+                                    }}</span>
+                                </h6>
+                                <h6>
+                                    Revenue Average:
+                                    <span class="text">{{
+                                        calendarEvents.earnings.revenueAverage
+                                            .fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <!-- <div class="info_item">
+                                <h6>
+                                    Forward P/E:
+                                    <span
+                                        class="text"
+                                        title="Estimates a company's likely earnings per share for the next 12 months"
+                                        >{{ summaryDetail.forwardPE.fmt }}</span
+                                    >
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Trailing P/E:
+                                    <span
+                                        class="text"
+                                        title="Calculated based on actual performance statistics rather than expected future performance (estimate)"
+                                        >{{
+                                            summaryDetail.trailingPE.fmt
+                                        }}</span
+                                    >
+                                </h6>
+                            </div> -->
+                            <div class="info_item">
+                                <h6>
+                                    Gross Profits:
+                                    <span class="text">{{
+                                        financialData.grossProfits.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Profit Margins:
+                                    <span class="text">
+                                        {{ financialData.profitMargins.fmt }}
+                                        ({{ financialData.profitMargins.raw }})
+                                    </span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Return On Equity:
+                                    <span class="text">
+                                        {{ financialData.returnOnEquity.fmt }}
+                                    </span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Return On Assets:
+                                    <span class="text">
+                                        {{ financialData.returnOnAssets.fmt }}
+                                    </span>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div
                     class="tab-pane fade"
-                    id="contact"
+                    id="ownership"
                     role="tabpanel"
-                    aria-labelledby="contact-tab"
+                    aria-labelledby="ownership-tab"
                 >
-                    ...
+                    <div class="info_item">
+                        <h6>
+                            Recommendation:
+                            <span class="text">
+                                {{
+                                    financialData.recommendationKey
+                                        | capitalized
+                                }}
+                            </span>
+                        </h6>
+                    </div>
+                    <div class="info_item">
+                        <h6>
+                            Recommendation Mean:
+                            <span class="text">
+                                {{ financialData.recommendationMean.fmt }}
+                            </span>
+                        </h6>
+                    </div>
+                    <div class="info_item">
+                        <h6>
+                            Number Of Analyst Opinions:
+                            <span class="text">
+                                {{ financialData.numberOfAnalystOpinions.fmt }}
+                            </span>
+                        </h6>
+                    </div>
                 </div>
+
                 <div
                     class="tab-pane fade"
                     id="newsEvents"
@@ -217,6 +708,10 @@
                     ...
                 </div>
             </div>
+
+            <!-- <div v-if="showErrorMessage" class="text-center">
+                <p>Quote not found for ticker symbol: {{ name }}</p>
+            </div> -->
         </div>
     </div>
 </template>
@@ -236,6 +731,18 @@ export default {
         defaultKeyStatistics() {
             return this.info.defaultKeyStatistics;
         },
+        summaryDetail() {
+            return this.info.summaryDetail;
+        },
+        financialData() {
+            return this.info.financialData;
+        },
+        earningsHistory() {
+            return this.info.earningsHistory;
+        },
+        calendarEvents() {
+            return this.info.calendarEvents;
+        },
         invalidInput() {
             return this.stockSymbol === "";
         },
@@ -246,12 +753,17 @@ export default {
             stockSymbol: "",
             name: "",
             loading: true,
+            // showErrorMessage: false,
         };
     },
 
     filters: {
         upperCased: function (value) {
             return value.toUpperCase();
+        },
+        capitalized: function (value) {
+            let firstLetter = value.charAt(0).toUpperCase();
+            return firstLetter + value.slice(1);
         },
     },
 
@@ -263,6 +775,12 @@ export default {
                 }, 1500);
 
                 this.name = this.stockSymbol.toUpperCase();
+
+                this.$store.dispatch("fetchCompanyInfo", this.name);
+
+                // if (this.info == null) {
+                //     this.showErrorMessage = true;
+                // }
             }
             this.stockSymbol = "";
             this.loading = true;
@@ -338,27 +856,33 @@ export default {
     border-color: #0b5ed7;
 }
 
+/* nav tabs ---------- */
 .profile_container {
     max-width: 900px;
     margin-top: 40px;
 }
 
-/* nav tabs */
 .nav-tabs {
     border-bottom-width: 2px;
 }
 
 .tab-content {
     background-color: var(--customWhite);
+    border: 2px solid #dee2e6;
+    border-top: 0;
+    border-radius: 0 0 4px 4px;
 }
 
 .nav-tabs .nav-link {
     font-family: var(--fontJosefin);
+    font-size: 1.075rem;
     color: var(--textColor);
     /* border-color: #eee; */
-    border-bottom-color: transparent !important;
+    border-bottom-color: 0 !important;
     margin-right: 5px;
     margin-bottom: -1.85px;
+    /* line-height: normal; */
+    padding-bottom: 5px;
 }
 
 .nav-tabs .nav-link:hover {
@@ -377,7 +901,7 @@ export default {
 }
 
 .tab-content > .tab-pane {
-    padding: 20px;
+    padding: 25px 25px 20px;
 }
 
 .tab-content > .tab-pane .loading_container h6 {
@@ -400,5 +924,13 @@ export default {
     font-size: var(--size14);
     font-weight: 400 !important;
     color: var(--textColor);
+}
+
+.tab-content > .tab-pane .info_item .text a {
+    text-decoration: none;
+}
+
+.tab-content > .tab-pane .info_item .text a:hover {
+    text-decoration: underline;
 }
 </style>
