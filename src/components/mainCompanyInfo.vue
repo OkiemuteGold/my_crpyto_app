@@ -74,29 +74,30 @@
                 <li class="nav-item" role="presentation">
                     <button
                         class="nav-link"
-                        id="ownership-tab"
+                        id="recomTrend-tab"
                         data-bs-toggle="tab"
-                        data-bs-target="#ownership"
+                        data-bs-target="#recomTrend"
                         type="button"
                         role="tab"
-                        aria-controls="ownership"
+                        aria-controls="recomTrend"
                         aria-selected="false"
                     >
-                        Ownership
+                        <abbr title="Recommendation">Recom</abbr> Trend
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button
                         class="nav-link"
-                        id="newsEvents-tab"
+                        id="udGradeHistory-tab"
                         data-bs-toggle="tab"
-                        data-bs-target="#newsEvents"
+                        data-bs-target="#udGradeHistory"
                         type="button"
                         role="tab"
-                        aria-controls="newsEvents"
+                        aria-controls="udGradeHistory"
                         aria-selected="false"
                     >
-                        News &amp; Events
+                        <abbr title="Upgrade &amp; Downgrage">UDGrade</abbr>
+                        History
                     </button>
                 </li>
             </ul>
@@ -110,7 +111,9 @@
                     summaryDetail ||
                     financialData ||
                     earningsHistory ||
-                    calendarEvents
+                    calendarEvents ||
+                    recommendationTrend ||
+                    upgradeDowngradeHistory
                 "
             >
                 <div
@@ -528,7 +531,10 @@
                                     <h6>
                                         Period (Quarter):
                                         <span class="text">
-                                            {{ history.period }}
+                                            {{
+                                                history.period
+                                                    | removeTrailingMinus
+                                            }}
                                             (
                                             <time
                                                 :datetime="`${history.quarter.fmt}`"
@@ -666,9 +672,9 @@
 
                 <div
                     class="tab-pane fade"
-                    id="ownership"
+                    id="recomTrend"
                     role="tabpanel"
-                    aria-labelledby="ownership-tab"
+                    aria-labelledby="recomTrend-tab"
                 >
                     <div class="info_item">
                         <h6>
@@ -680,16 +686,12 @@
                                 }}
                             </span>
                         </h6>
-                    </div>
-                    <div class="info_item">
                         <h6>
                             Recommendation Mean:
                             <span class="text">
                                 {{ financialData.recommendationMean.fmt }}
                             </span>
                         </h6>
-                    </div>
-                    <div class="info_item">
                         <h6>
                             Number Of Analyst Opinions:
                             <span class="text">
@@ -697,15 +699,175 @@
                             </span>
                         </h6>
                     </div>
+
+                    <div class="row">
+                        <h6 class="mt-2 mb-3 text-underlined">
+                            Recommendation Trends
+                        </h6>
+
+                        <div
+                            v-for="(
+                                recommendation, index
+                            ) in recommendationTrend.trend"
+                            :key="index"
+                            class="col-12 col-md-6 col-lg-4 mt-1"
+                        >
+                            <div class="info_item">
+                                <h6>
+                                    Period:
+                                    <span class="text">
+                                        {{
+                                            recommendation.period
+                                                | removeTrailingMinus
+                                        }}th ago
+                                    </span>
+                                </h6>
+                                <h6>
+                                    Buy:
+                                    <span class="text">
+                                        {{ recommendation.buy }}
+                                    </span>
+                                </h6>
+                                <h6>
+                                    Hold:
+                                    <span class="text">
+                                        {{ recommendation.hold }}
+                                    </span>
+                                </h6>
+                                <h6>
+                                    Sell:
+                                    <span class="text">
+                                        {{ recommendation.sell }}
+                                    </span>
+                                </h6>
+                                <h6>
+                                    Strong Buy:
+                                    <span class="text">
+                                        {{ recommendation.strongBuy }}
+                                    </span>
+                                </h6>
+                                <h6>
+                                    Strong Sell:
+                                    <span class="text">
+                                        {{ recommendation.strongSell }}
+                                    </span>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div
                     class="tab-pane fade"
-                    id="newsEvents"
+                    id="udGradeHistory"
                     role="tabpanel"
-                    aria-labelledby="newsEvents-tab"
+                    aria-labelledby="udGradeHistory-tab"
                 >
-                    ...
+                    <div class="row">
+                        <div
+                            class="
+                                d-flex
+                                flex-column flex-md-row
+                                justify-content-md-between
+                            "
+                        >
+                            <div class="info_item mb-4">
+                                <h6 class="d-inline">Filter By Name:</h6>
+                                <select
+                                    name="udGradeSelectName"
+                                    id="udGradeSelectName"
+                                    class="selectField"
+                                >
+                                    <option
+                                        v-for="(
+                                            firmName, index
+                                        ) in eliminateDuplicateNames"
+                                        :key="index"
+                                        :value="firmName"
+                                    >
+                                        {{ firmName }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div
+                                class="
+                                    info_item
+                                    flex-row
+                                    justify-content-start
+                                    align-items-center
+                                    mb-4
+                                "
+                            >
+                                <h6 class="d-inline mb-0">Sort By Date:</h6>
+                                <button class="btn btn-primary text">
+                                    Sort
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mt-2 mb-3">
+                            <hr />
+                        </div>
+
+                        <div
+                            v-for="(
+                                udGradeHistory, index
+                            ) in upgradeDowngradeHistory"
+                            :key="index"
+                            class="col-12 col-md-6 col-lg-4 mt-2"
+                        >
+                            <div class="info_item">
+                                <h6>
+                                    S/N:
+                                    <span class="text">
+                                        {{ index + 1 }}
+                                    </span>
+                                </h6>
+                                <h6>
+                                    Firm:
+                                    <span class="text">
+                                        {{ udGradeHistory.firm }}
+                                    </span>
+                                </h6>
+                                <h6>
+                                    From Grade:
+                                    <span class="text">
+                                        {{ udGradeHistory.fromGrade }}
+                                    </span>
+                                </h6>
+                                <h6>
+                                    To Grade:
+                                    <span class="text">
+                                        {{ udGradeHistory.toGrade }}
+                                    </span>
+                                </h6>
+                                <h6>
+                                    Action:
+                                    <span class="text">
+                                        {{
+                                            udGradeHistory.action | capitalized
+                                        }}
+                                    </span>
+                                </h6>
+                                <h6>
+                                    Date:
+                                    <span class="text">
+                                        <time
+                                            :datetime="
+                                                udGradeHistory.epochGradeDate
+                                                    | convertEpochToJsDate
+                                            "
+                                        >
+                                            {{
+                                                udGradeHistory.epochGradeDate
+                                                    | convertEpochToJsDate
+                                            }}
+                                        </time>
+                                    </span>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -740,11 +902,36 @@ export default {
         earningsHistory() {
             return this.info.earningsHistory;
         },
+        recommendationTrend() {
+            return this.info.recommendationTrend;
+        },
+        upgradeDowngradeHistory() {
+            let array = this.info.upgradeDowngradeHistory.history;
+            // let newArray = array.sort(function (a, b) {
+            //     return a.epochGradeDate > b.epochGradeDate ? -1 : 1;
+            // });
+
+            return array.slice(0, 20);
+        },
         calendarEvents() {
             return this.info.calendarEvents;
         },
         invalidInput() {
             return this.stockSymbol === "";
+        },
+
+        eliminateDuplicateNames: function () {
+            let arrValues = [];
+            for (let i = 0; i < this.upgradeDowngradeHistory.length; i++) {
+                if (
+                    arrValues.indexOf(this.upgradeDowngradeHistory[i].firm) ===
+                    -1
+                ) {
+                    arrValues.push(this.upgradeDowngradeHistory[i].firm);
+                }
+            }
+
+            return arrValues;
         },
     },
 
@@ -764,6 +951,28 @@ export default {
         capitalized: function (value) {
             let firstLetter = value.charAt(0).toUpperCase();
             return firstLetter + value.slice(1);
+        },
+        removeTrailingMinus: function (value) {
+            let i,
+                frags = value.split("-");
+
+            for (i = 0; i < frags.length; i++) {
+                frags[i] = frags[i].charAt(0) + frags[i].slice(1);
+            }
+            return frags.join(" ");
+        },
+        convertEpochToJsDate: function (value) {
+            let timestamp = value;
+            let date = new Date(timestamp * 1000);
+
+            let year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hours = date.getHours(),
+                minutes = date.getMinutes(),
+                seconds = date.getSeconds();
+
+            return `${day}-${month}-${year} | ${hours}:${minutes}:${seconds}`;
         },
     },
 
@@ -789,6 +998,11 @@ export default {
 
     mounted() {
         console.log(this.info);
+    },
+
+    created() {
+        this.stockSymbol = "AAPL";
+        this.searchStock();
     },
 };
 </script>
@@ -877,12 +1091,10 @@ export default {
     font-family: var(--fontJosefin);
     font-size: 1.075rem;
     color: var(--textColor);
-    /* border-color: #eee; */
-    border-bottom-color: 0 !important;
-    margin-right: 5px;
+    border-bottom: 0 !important;
+    margin-right: 2px;
     margin-bottom: -1.85px;
-    /* line-height: normal; */
-    padding-bottom: 5px;
+    padding-bottom: 4px;
 }
 
 .nav-tabs .nav-link:hover {
@@ -926,11 +1138,57 @@ export default {
     color: var(--textColor);
 }
 
+.tab-content > .tab-pane .info_item .text[title] {
+    cursor: help;
+}
+
 .tab-content > .tab-pane .info_item .text a {
     text-decoration: none;
 }
 
 .tab-content > .tab-pane .info_item .text a:hover {
     text-decoration: underline;
+}
+
+#udGradeHistory .info_item button.text {
+    color: #fff;
+    margin-left: 8px;
+    min-width: 4rem;
+}
+
+#udGradeHistory hr {
+    margin: 0.5rem 0 1rem;
+}
+
+.tab-content > .tab-pane .info_item .selectField {
+    padding: 3px 8px 6px;
+    margin-left: 8px;
+    border: 1px solid #dee2e6;
+    color: var(--textColor);
+    border-radius: 4px;
+}
+
+@media screen and (max-width: 541px) {
+    .nav-tabs .nav-link {
+        border-color: #eee;
+        border-bottom: 1px solid #eee !important;
+        margin-bottom: 2px;
+    }
+
+    .nav-tabs .nav-link.active {
+        border-bottom-color: #dee2e6;
+    }
+}
+
+@media screen and (max-width: 405px) {
+    #udGradeHistory .info_item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .tab-content > .tab-pane .info_item .selectField {
+        margin-left: 0;
+    }
 }
 </style>
