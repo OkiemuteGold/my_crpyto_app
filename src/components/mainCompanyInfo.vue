@@ -116,12 +116,14 @@
                     upgradeDowngradeHistory
                 "
             >
+                <!-- profile tab -->
                 <div
                     class="tab-pane fade show active"
                     id="profile"
                     role="tabpanel"
                     aria-labelledby="profile-tab"
                 >
+                    <!-- show preloader if name is entered -->
                     <div
                         class="
                             loading_container
@@ -143,6 +145,7 @@
                         >
                     </div>
 
+                    <!-- if done loading -->
                     <span v-if="!loading">
                         <div class="info_item">
                             <h6>
@@ -222,6 +225,7 @@
                     </span>
                 </div>
 
+                <!-- financials tab -->
                 <div
                     class="tab-pane fade"
                     id="financials"
@@ -272,52 +276,43 @@
                                 </h6>
                             </div>
                             <div class="info_item">
-                                <h6>
+                                <h6
+                                    title="Highest price at which a security e.g. stock, has traded during the time period of 1 year"
+                                >
                                     52 Wk High:
-                                    <span
-                                        class="text"
-                                        title="Highest price at which a security e.g. stock, has traded during the time period of 1 year"
-                                        >{{
-                                            summaryDetail.fiftyTwoWeekHigh.fmt
-                                        }}</span
-                                    >
+                                    <span class="text">{{
+                                        summaryDetail.fiftyTwoWeekHigh.fmt
+                                    }}</span>
                                 </h6>
                             </div>
                             <div class="info_item">
-                                <h6>
+                                <h6
+                                    title="Lowest price at which a security e.g. stock, has traded during the time period of 1 year"
+                                >
                                     52 Wk Low:
-                                    <span
-                                        class="text"
-                                        title="Lowest price at which a security e.g. stock, has traded during the time period of 1 year"
-                                        >{{
-                                            summaryDetail.fiftyTwoWeekLow.fmt
-                                        }}</span
-                                    >
+                                    <span class="text">{{
+                                        summaryDetail.fiftyTwoWeekLow.fmt
+                                    }}</span>
                                 </h6>
                             </div>
                             <div class="info_item">
-                                <h6>
+                                <h6
+                                    title="It's the first line of support in an uptrend or the first line of resistance in a downtrend"
+                                >
                                     50 Day Average:
-                                    <span
-                                        class="text"
-                                        title="It's the first line of support in an uptrend or the first line of resistance in a downtrend"
-                                        >{{
-                                            summaryDetail.fiftyDayAverage.fmt
-                                        }}</span
-                                    >
+                                    <span class="text">{{
+                                        summaryDetail.fiftyDayAverage.fmt
+                                    }}</span>
                                 </h6>
                             </div>
                             <div class="info_item">
-                                <h6>
+                                <h6
+                                    title="Covers roughly 40 weeks of trading, and is commonly used to determine the general market trend"
+                                >
                                     200 Day Average:
-                                    <span
-                                        class="text"
-                                        title="Covers roughly 40 weeks of trading, and is commonly used to determine the general market trend"
-                                        >{{
-                                            summaryDetail.twoHundredDayAverage
-                                                .fmt
-                                        }}</span
-                                    >
+                                    <span class="text">{{
+                                        summaryDetail.twoHundredDayAverage.fmt
+                                    }}</span>
                                 </h6>
                             </div>
                             <div class="info_item">
@@ -349,12 +344,11 @@
                         <!-- right -->
                         <div class="col-12 col-md-6">
                             <div class="info_item">
-                                <h6>
+                                <h6
+                                    title="Higher trade volumes for a stock mean higher liquidity, better order execution and a more active market for connecting a buyer and seller"
+                                >
                                     Volume:
-                                    <span
-                                        class="text"
-                                        title="Higher trade volumes for a stock mean higher liquidity, better order execution and a more active market for connecting a buyer and seller"
-                                    >
+                                    <span class="text">
                                         {{ summaryDetail.volume.fmt }}
                                     </span>
                                 </h6>
@@ -366,16 +360,13 @@
                                 </h6>
                             </div>
                             <div class="info_item">
-                                <h6>
+                                <h6
+                                    title="The amount of an asset or security that changes hands over some period of 10 days"
+                                >
                                     Average Volume 10days:
-                                    <span
-                                        class="text"
-                                        title="The amount of an asset or security that changes hands over some period of 10 days"
-                                        >{{
-                                            summaryDetail.averageVolume10days
-                                                .fmt
-                                        }}</span
-                                    >
+                                    <span class="text">{{
+                                        summaryDetail.averageVolume10days.fmt
+                                    }}</span>
                                 </h6>
                             </div>
                             <div class="info_item">
@@ -444,47 +435,42 @@
                                 </h6>
                             </div>
                             <div class="info_item">
-                                <h6>
+                                <h6
+                                    title="financial ratio (dividend/price) that shows how much a company pays out in dividends each year relative to its stock price"
+                                >
                                     Div/Yield:
-                                    <span
-                                        class="text"
-                                        title="financial ratio (dividend/price) that shows how much a company pays out in dividends each year relative to its stock price"
-                                        >{{
-                                            summaryDetail.dividendYield.fmt
-                                        }}</span
-                                    >
+                                    <span class="text">{{
+                                        summaryDetail.dividendYield.fmt
+                                    }}</span>
                                 </h6>
                             </div>
                             <div class="info_item">
-                                <h6>
+                                <h6
+                                    title="Actual dividend payments relative to the share price over the previous 12 months"
+                                >
                                     Trailing Annual Div/Yield:
-                                    <span
-                                        class="text"
-                                        title="Actual dividend payments relative to the share price over the previous 12 months"
-                                        >{{
-                                            summaryDetail
-                                                .trailingAnnualDividendYield.fmt
-                                        }}</span
-                                    >
+                                    <span class="text">{{
+                                        summaryDetail
+                                            .trailingAnnualDividendYield.fmt
+                                    }}</span>
                                 </h6>
                             </div>
                             <div class="info_item">
-                                <h6>
+                                <h6
+                                    title="Actual dividend payments relative to the share price over the previous 12 months"
+                                >
                                     5 Year Avg Div/Yield:
-                                    <span
-                                        class="text"
-                                        title="Actual dividend payments relative to the share price over the previous 12 months"
-                                        >{{
-                                            summaryDetail
-                                                .fiveYearAvgDividendYield.fmt
-                                        }}</span
-                                    >
+                                    <span class="text">{{
+                                        summaryDetail.fiveYearAvgDividendYield
+                                            .fmt
+                                    }}</span>
                                 </h6>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- earnings  and earnings history tab -->
                 <div
                     class="tab-pane fade"
                     id="earnings"
@@ -612,25 +598,19 @@
                                 </h6>
                             </div>
                             <!-- <div class="info_item">
-                                <h6>
+                                <h6 title="Estimates a company's likely earnings per share for the next 12 months">
                                     Forward P/E:
-                                    <span
-                                        class="text"
-                                        title="Estimates a company's likely earnings per share for the next 12 months"
-                                        >{{ summaryDetail.forwardPE.fmt }}</span
-                                    >
+                                    <span class="text">
+                                        {{ summaryDetail.forwardPE.fmt }}
+                                    </span>
                                 </h6>
                             </div>
                             <div class="info_item">
-                                <h6>
+                                <h6 title="Calculated based on actual performance statistics rather than expected future performance (estimate)">
                                     Trailing P/E:
-                                    <span
-                                        class="text"
-                                        title="Calculated based on actual performance statistics rather than expected future performance (estimate)"
-                                        >{{
-                                            summaryDetail.trailingPE.fmt
-                                        }}</span
-                                    >
+                                    <span class="text">
+                                        {{ summaryDetail.trailingPE.fmt }}
+                                    </span>
                                 </h6>
                             </div> -->
                             <div class="info_item">
@@ -670,12 +650,14 @@
                     </div>
                 </div>
 
+                <!-- recommendations  and recommendation trends tab -->
                 <div
                     class="tab-pane fade"
                     id="recomTrend"
                     role="tabpanel"
                     aria-labelledby="recomTrend-tab"
                 >
+                    <!-- summarized recommendation -->
                     <div class="info_item">
                         <h6>
                             Recommendation:
@@ -700,6 +682,7 @@
                         </h6>
                     </div>
 
+                    <!-- comprehensive recommendation -->
                     <div class="row">
                         <h6 class="mt-2 mb-3 text-underlined">
                             Recommendation Trends
@@ -757,6 +740,7 @@
                     </div>
                 </div>
 
+                <!-- upgrade and downgrade history tab -->
                 <div
                     class="tab-pane fade"
                     id="udGradeHistory"
@@ -771,13 +755,18 @@
                                 justify-content-md-between
                             "
                         >
+                            <!-- all firm names option for filtering recommendations -->
                             <div class="info_item mb-4">
                                 <h6 class="d-inline">Filter By Name:</h6>
                                 <select
                                     name="udGradeSelectName"
                                     id="udGradeSelectName"
                                     class="selectField"
+                                    v-model="selectedFirmName"
                                 >
+                                    <option value="" disabled>
+                                        Select Firm
+                                    </option>
                                     <option
                                         v-for="(
                                             firmName, index
@@ -789,6 +778,7 @@
                                     </option>
                                 </select>
                             </div>
+
                             <div
                                 class="
                                     info_item
@@ -798,10 +788,57 @@
                                     mb-4
                                 "
                             >
-                                <h6 class="d-inline mb-0">Sort By Date:</h6>
-                                <button class="btn btn-primary text">
+                                <!-- <h6 class="d-inline mb-0">Sort By Date:</h6>
+                                <button
+                                    class="btn btn-primary text"
+                                    @click="sortHistory"
+                                >
                                     Sort
+                                </button> -->
+
+                                <button
+                                    class="btn btn-primary text"
+                                    @click="prevTwentyHistory"
+                                >
+                                    <abbr title="Previous">Prev</abbr> 20
                                 </button>
+                                <button
+                                    class="btn btn-primary text"
+                                    @click="nextTwentyHistory"
+                                >
+                                    Next 20
+                                </button>
+                            </div>
+                        </div>
+
+                        <div
+                            class="
+                                d-flex
+                                flex-column flex-md-row
+                                justify-content-md-end
+                            "
+                        >
+                            <div class="info_item px-md-5 mb-0 mb-md-3">
+                                <h6>
+                                    Page:
+                                    <span class="text">
+                                        {{ page }} of {{ totalPageNumber }}
+                                    </span>
+                                </h6>
+                            </div>
+                            <div class="info_item px-md-5 mb-0 mb-md-3">
+                                <h6>
+                                    Showing result:
+                                    <span class="text">
+                                        {{ filteredByName.length }} of
+                                        {{ upgradeDowngradeHistory.length }}
+                                    </span>
+                                    <br />
+                                    <span class="text" v-if="selectedFirmName">
+                                        {{ selectedFirmName }}:
+                                        <!-- {{ allUdGradeHistoryTotal }} -->
+                                    </span>
+                                </h6>
                             </div>
                         </div>
 
@@ -809,10 +846,9 @@
                             <hr />
                         </div>
 
+                        <!-- all filtered firm recommendations -->
                         <div
-                            v-for="(
-                                udGradeHistory, index
-                            ) in upgradeDowngradeHistory"
+                            v-for="(udGradeHistory, index) in filteredByName"
                             :key="index"
                             class="col-12 col-md-6 col-lg-4 mt-2"
                         >
@@ -879,14 +915,29 @@
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
-
 export default {
     props: ["info"],
 
-    computed: {
-        // ...mapGetters(["stockDetails"]),
+    data() {
+        return {
+            stockSymbol: "",
+            name: "",
+            loading: true,
+            selectedFirmName: "",
+            page: 1,
+            pageSize: 20,
+            totalPageNumber: "",
+            // allUdGradeHistoryTotal: "",
+            // showErrorMessage: false,
+        };
+    },
 
+    computed: {
+        invalidInput() {
+            return this.stockSymbol === "";
+        },
+
+        /* get all api result/data referenced from Main component */
         assetProfile() {
             return this.info.assetProfile;
         },
@@ -905,21 +956,64 @@ export default {
         recommendationTrend() {
             return this.info.recommendationTrend;
         },
-        upgradeDowngradeHistory() {
-            let array = this.info.upgradeDowngradeHistory.history;
-            // let newArray = array.sort(function (a, b) {
-            //     return a.epochGradeDate > b.epochGradeDate ? -1 : 1;
-            // });
-
-            return array.slice(0, 20);
-        },
         calendarEvents() {
             return this.info.calendarEvents;
         },
-        invalidInput() {
-            return this.stockSymbol === "";
+
+        /* sort history data by date in descending order */
+        upgradeDowngradeHistory() {
+            let array = this.info.upgradeDowngradeHistory.history;
+            let newArray = array.sort(function (a, b) {
+                return a.epochGradeDate > b.epochGradeDate ? -1 : 1;
+            });
+
+            return newArray;
         },
 
+        /* get total page based on all total history and how many i want per page */
+        totalPages() {
+            return Math.ceil(
+                this.upgradeDowngradeHistory.length / this.pageSize
+            );
+        },
+
+        /* filter and get only first 20 */
+        filteredByName() {
+            let selectedItem = this.selectedFirmName;
+            let filteredArray = [];
+
+            /* Filter and get only first 20 for firm name selected, otherwise, show first 20 from All */
+            if (selectedItem) {
+                filteredArray = this.upgradeDowngradeHistory.filter((item) => {
+                    console.log(
+                        item.firm.indexOf(selectedItem) > -1,
+                        item.firm,
+                        selectedItem
+                    );
+                    return item.firm == selectedItem;
+                });
+                // this.allUdGradeHistoryTotal == filteredArray.length;
+                this.selectedFirmName == "";
+
+                /* current page */
+                return filteredArray.slice(
+                    (this.page - 1) * this.pageSize,
+                    this.page * this.pageSize
+                );
+            } else {
+                let filteredArray = this.upgradeDowngradeHistory;
+                // this.allUdGradeHistoryTotal == filteredArray;
+                // console.log(filteredArray.length, filteredArray.slice(0, 20));
+
+                /* current page */
+                return filteredArray.slice(
+                    (this.page - 1) * this.pageSize,
+                    this.page * this.pageSize
+                );
+            }
+        },
+
+        /* remove duplicate and return firm name once */
         eliminateDuplicateNames: function () {
             let arrValues = [];
             for (let i = 0; i < this.upgradeDowngradeHistory.length; i++) {
@@ -928,6 +1022,18 @@ export default {
                     -1
                 ) {
                     arrValues.push(this.upgradeDowngradeHistory[i].firm);
+
+                    arrValues = arrValues.sort((a, b) => {
+                        // if (a < b) {
+                        //     return -1;
+                        // }
+                        // if (a > b) {
+                        //     return 1;
+                        // }
+                        // return 0;
+
+                        return a < b ? -1 : 1;
+                    });
                 }
             }
 
@@ -935,23 +1041,19 @@ export default {
         },
     },
 
-    data() {
-        return {
-            stockSymbol: "",
-            name: "",
-            loading: true,
-            // showErrorMessage: false,
-        };
-    },
-
     filters: {
+        /* change to uppercase */
         upperCased: function (value) {
             return value.toUpperCase();
         },
+
+        /* capitalize first letter */
         capitalized: function (value) {
             let firstLetter = value.charAt(0).toUpperCase();
             return firstLetter + value.slice(1);
         },
+
+        /* remove - from before -2q dates */
         removeTrailingMinus: function (value) {
             let i,
                 frags = value.split("-");
@@ -961,6 +1063,8 @@ export default {
             }
             return frags.join(" ");
         },
+
+        /* convert epoch date to js readable date */
         convertEpochToJsDate: function (value) {
             let timestamp = value;
             let date = new Date(timestamp * 1000);
@@ -978,6 +1082,7 @@ export default {
 
     methods: {
         searchStock() {
+            /* search if there is an input */
             if (!this.invalidInput) {
                 setTimeout(() => {
                     this.loading = false;
@@ -985,14 +1090,29 @@ export default {
 
                 this.name = this.stockSymbol.toUpperCase();
 
+                /* call fetchCompanyInfo from action using inputted name as argument */
                 this.$store.dispatch("fetchCompanyInfo", this.name);
+
+                /* make total page display once mounted */
+                this.totalPageNumber = this.totalPages;
 
                 // if (this.info == null) {
                 //     this.showErrorMessage = true;
                 // }
             }
+
+            /* return all to origin state */
             this.stockSymbol = "";
+            this.selectedFirmName = "";
             this.loading = true;
+        },
+
+        /* increment/decrement number of pages - get next and previous 20 items */
+        nextTwentyHistory() {
+            this.page = Math.min(this.page + 1, this.totalPages);
+        },
+        prevTwentyHistory() {
+            this.page = Math.max(this.page - 1, 1);
         },
     },
 
@@ -1001,6 +1121,7 @@ export default {
     },
 
     created() {
+        /* pass in default symbol and run search once to have default first time data */
         this.stockSymbol = "AAPL";
         this.searchStock();
     },
@@ -1082,7 +1203,7 @@ export default {
 
 .tab-content {
     background-color: var(--customWhite);
-    border: 2px solid #dee2e6;
+    border: 2px solid var(--lightestGray);
     border-top: 0;
     border-radius: 0 0 4px 4px;
 }
@@ -1098,7 +1219,7 @@ export default {
 }
 
 .nav-tabs .nav-link:hover {
-    border-color: #dee2e6;
+    border-color: var(--lightestGray);
 }
 
 .nav-tabs .nav-item.show .nav-link,
@@ -1138,7 +1259,7 @@ export default {
     color: var(--textColor);
 }
 
-.tab-content > .tab-pane .info_item .text[title] {
+.tab-content > .tab-pane .info_item h6[title] {
     cursor: help;
 }
 
@@ -1152,8 +1273,11 @@ export default {
 
 #udGradeHistory .info_item button.text {
     color: #fff;
+    min-width: 4.5rem;
+}
+
+#udGradeHistory .info_item button.text:not(:first-child) {
     margin-left: 8px;
-    min-width: 4rem;
 }
 
 #udGradeHistory hr {
@@ -1161,9 +1285,9 @@ export default {
 }
 
 .tab-content > .tab-pane .info_item .selectField {
-    padding: 3px 8px 6px;
+    padding: 3px 8px 6px 6px;
     margin-left: 8px;
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--lightestGray);
     color: var(--textColor);
     border-radius: 4px;
 }
@@ -1176,11 +1300,11 @@ export default {
     }
 
     .nav-tabs .nav-link.active {
-        border-bottom-color: #dee2e6;
+        border-bottom-color: var(--lightestGray);
     }
 }
 
-@media screen and (max-width: 405px) {
+@media screen and (max-width: 426px) {
     #udGradeHistory .info_item {
         display: flex;
         flex-direction: column;

@@ -67,6 +67,7 @@ export default {
 
 :root {
     --customWhite: #f8f8f8;
+    --lightestGray: #dee2e6;
     --lightGray: #b4b4b4;
     --textColor: #6c757d;
     --fontJosefin: "Josefin Sans", "Helvetica Neue", Helvetica, Arial,
@@ -86,6 +87,37 @@ body {
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
     overflow-x: hidden;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #fff;
+    border-radius: 10px;
+}
+
+select::-webkit-scrollbar-track {
+    box-shadow: inset 0 1px 5px var(--lightGray);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--lightGray);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #9a9a9a;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb {
+    transition: 0.3s ease;
 }
 
 section {
