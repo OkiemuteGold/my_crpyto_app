@@ -1093,9 +1093,6 @@ export default {
                 /* call fetchCompanyInfo from action using inputted name as argument */
                 this.$store.dispatch("fetchCompanyInfo", this.name);
 
-                /* make total page display once mounted */
-                this.totalPageNumber = this.totalPages;
-
                 // if (this.info == null) {
                 //     this.showErrorMessage = true;
                 // }
@@ -1118,6 +1115,9 @@ export default {
 
     mounted() {
         console.log(this.info);
+
+        /* make total page display once mounted */
+        this.totalPageNumber = this.totalPages;
     },
 
     created() {
