@@ -6,7 +6,7 @@ export const fetchStockDetails = async ({ commit, state }) => {
     let options = {
         method: 'GET',
         params: {
-            symbols: 'IDEX,AAPL,MSFT,GOOG',
+            symbols: 'IDEX,LAZR,FSR,BBBY,PLUG,BLNK,ATER,TLRY,JMIA,WISH',
         },
         headers: {
             'x-api-key': state.apiKey,

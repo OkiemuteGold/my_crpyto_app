@@ -42,7 +42,7 @@ export default {
             localStorage.setItem("companyInfo", companyInfo);
         } else {
             this.fetchStockDetails();
-            this.fetchCompanyInfo("AAPL");
+            this.fetchCompanyInfo("IDEX");
         }
     },
 };

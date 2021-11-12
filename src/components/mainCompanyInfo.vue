@@ -1122,7 +1122,7 @@ export default {
 
     created() {
         /* pass in default symbol and run search once to have default first time data */
-        this.stockSymbol = "AAPL";
+        this.stockSymbol = "IDEX";
         this.searchStock();
     },
 };
