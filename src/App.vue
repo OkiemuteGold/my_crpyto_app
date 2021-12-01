@@ -13,6 +13,11 @@ import Main from "./components/Main.vue";
 import { mapActions } from "vuex";
 
 export default {
+    data() {
+        return {
+            default: "IDEX,LAZR,FSR,BBBY,PLUG,BLNK,ATER,RIOT,WISH,JMIA",
+        };
+    },
     components: {
         Header,
         Main,
@@ -41,7 +46,7 @@ export default {
             localStorage.setItem("stockDetails", stockDetails);
             localStorage.setItem("companyInfo", companyInfo);
         } else {
-            this.fetchStockDetails();
+            this.fetchStockDetails(this.default);
             this.fetchCompanyInfo("IDEX");
         }
     },
@@ -50,8 +55,6 @@ export default {
 
 <style>
 /* @import url("https://fonts.googleapis.com/css?family=Montserrat:200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"); */
-
-/* @import "https://fonts.googleapis.com/css?family=Just+Another+Hand"; */
 
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap");
 
@@ -94,12 +97,17 @@ body {
     width: 12px;
 }
 
+.card-text .desc::-webkit-scrollbar {
+    width: 10px;
+}
+
 /* Track */
 ::-webkit-scrollbar-track {
     background: #fff;
     border-radius: 10px;
 }
 
+.card-text .desc::-webkit-scrollbar-track,
 select::-webkit-scrollbar-track {
     box-shadow: inset 0 1px 5px var(--lightGray);
 }

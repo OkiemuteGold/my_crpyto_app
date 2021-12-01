@@ -1,8 +1,5 @@
 <template>
-    <div
-        class="col-12 col-md-6 col-lg-4 feature_item"
-        v-if="assetProfile || defaultKeyStatistics"
-    >
+    <div v-if="assetProfile || defaultKeyStatistics">
         <div class="card shadow-sm">
             <img
                 src="../assets/images/samp1.jpg"
@@ -70,7 +67,7 @@ export default {
     },
 
     mounted() {
-        console.log(this.info);
+        // console.log(this.info);
     },
 };
 </script>
@@ -84,7 +81,7 @@ export default {
 }
 
 .card-body {
-    background: #f8f8f8 !important;
+    background: var(--customWhite) !important;
 }
 
 h5.card-title {

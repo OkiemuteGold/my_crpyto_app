@@ -985,11 +985,11 @@ export default {
             /* Filter and get only first 20 for firm name selected, otherwise, show first 20 from All */
             if (selectedItem) {
                 filteredArray = this.upgradeDowngradeHistory.filter((item) => {
-                    console.log(
-                        item.firm.indexOf(selectedItem) > -1,
-                        item.firm,
-                        selectedItem
-                    );
+                    // console.log(
+                    //     item.firm.indexOf(selectedItem) > -1,
+                    //     item.firm,
+                    //     selectedItem
+                    // );
                     return item.firm == selectedItem;
                 });
                 // this.allUdGradeHistoryTotal == filteredArray.length;
@@ -1114,7 +1114,7 @@ export default {
     },
 
     mounted() {
-        console.log(this.info);
+        // console.log(this.info);
 
         /* make total page display once mounted */
         this.totalPageNumber = this.totalPages;

@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-export const fetchStockDetails = async ({ commit, state }) => {
+export const fetchStockDetails = async ({ commit, state }, symbols) => {
     let url = `${state.baseURL}/v6/finance/quote`;
+    // symbols = 'IDEX,LAZR,FSR,BBBY,PLUG,BLNK,ATER,TLRY,JMIA,WISH';
 
     let options = {
         method: 'GET',
         params: {
-            symbols: 'IDEX,LAZR,FSR,BBBY,PLUG,BLNK,ATER,TLRY,JMIA,WISH',
+            symbols: symbols,
         },
         headers: {
             'x-api-key': state.apiKey,
