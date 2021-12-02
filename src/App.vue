@@ -1,7 +1,8 @@
 <template>
     <div id="app">
-        <Header />
-        <Main />
+        <Header @stock="showStockPlatform" @crypto="showCryptoPlatform" />
+        <Main v-if="stockMainShown" :stockMainShown="stockMainShown" />
+        <CryptoMain v-if="cryptoMainShown" :cryptoMainShown="cryptoMainShown" />
         <router-view />
     </div>
 </template>
@@ -11,17 +12,23 @@ import Header from "./components/Header.vue";
 import Main from "./components/Main.vue";
 
 import { mapActions } from "vuex";
+import CryptoMain from "./components/CryptoMain.vue";
 
 export default {
     data() {
         return {
             default: "IDEX,LAZR,FSR,BBBY,PLUG,BLNK,ATER,RIOT,WISH,JMIA",
+            stockMainShown: true,
+            cryptoMainShown: false,
         };
     },
+
     components: {
         Header,
         Main,
+        CryptoMain,
     },
+
     methods: {
         ...mapActions([
             "fetchStockDetails",
@@ -29,7 +36,16 @@ export default {
             "saveStockDetails",
             "saveCompanyInfo",
         ]),
+
+        showStockPlatform: function (platform) {
+            this.stockMainShown = platform;
+        },
+
+        showCryptoPlatform: function (platform) {
+            this.cryptoMainShown = platform;
+        },
     },
+
     mounted() {
         let stockDetails = JSON.parse(localStorage.getItem("stockDetails"))
             ? JSON.parse(localStorage.getItem("stockDetails"))

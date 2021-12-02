@@ -66,19 +66,25 @@
                         aria-labelledby="dropdownMenuLink"
                     >
                         <li>
-                            <a class="dropdown-item" href="javascript: void()">
+                            <span
+                                class="dropdown-item"
+                                @click="showPlatform('Stocks')"
+                            >
                                 <i class="fas fa-cubes" aria-label="Stocks"></i>
                                 Stocks
-                            </a>
+                            </span>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="javascript: void()">
+                            <span
+                                class="dropdown-item"
+                                @click="showPlatform('Crypto')"
+                            >
                                 <i
                                     class="fab fa-bitcoin"
                                     aria-label="Crypto"
                                 ></i>
                                 Crypto
-                            </a>
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -104,6 +110,8 @@
 // import $ from "jquery";
 
 export default {
+    props: ["stockMainShown", "cryptoMainShown"],
+
     data() {
         return {};
     },
@@ -114,6 +122,20 @@ export default {
         // openDropdownMenu() {
         //     $(".dropdown-menu").toggle("show_nav_item");
         // },
+
+        showPlatform(platform) {
+            if (platform.toLowerCase() == "stocks") {
+                console.log("Stocks clicked");
+
+                this.$emit("stock", true);
+                this.$emit("crypto", false);
+            } else if (platform.toLowerCase() == "crypto") {
+                console.log("Crypto clicked");
+
+                this.$emit("stock", false);
+                this.$emit("crypto", true);
+            }
+        },
     },
 };
 </script>
@@ -143,6 +165,7 @@ header {
     text-align: center;
     border-radius: 2px;
     font-size: 1rem;
+    cursor: pointer;
 }
 
 /* .show_nav_item {
