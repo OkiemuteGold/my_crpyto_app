@@ -29,7 +29,7 @@ export const fetchCompanyInfo = async ({ commit, state }, tickerSymbols) => {
     let options = {
         method: 'GET',
         params: {
-            modules: 'assetProfile,summaryDetail,calendarEvents,upgradeDowngradeHistory,insiderTransactions,defaultKeyStatistics,recommendationTrend,earningsHistory,earningsTrend,financialData,secFilings',
+            modules: 'assetProfile,summaryDetail,calendarEvents,upgradeDowngradeHistory,insiderTransactions,defaultKeyStatistics,recommendationTrend,earningsHistory,financialData',
         },
         headers: {
             'x-api-key': state.apiKey,

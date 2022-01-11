@@ -1,8 +1,11 @@
 <template>
     <div id="app">
         <Header @stock="showStockPlatform" @crypto="showCryptoPlatform" />
-        <Main v-if="stockMainShown" :stockMainShown="stockMainShown" />
-        <CryptoMain v-if="cryptoMainShown" :cryptoMainShown="cryptoMainShown" />
+
+        <Main v-if="stockMainShown" />
+
+        <CryptoMain v-if="cryptoMainShown" />
+
         <router-view />
     </div>
 </template>

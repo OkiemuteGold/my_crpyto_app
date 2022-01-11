@@ -241,7 +241,7 @@ export default {
                 },
                 {
                     name: "Crypto",
-                    symbols: "RIOT,SQ,BLOK,BOTZ",
+                    symbols: "RIOT,MARA,EBON,OSTK,SQ,COIN,MSTR,BLOK,BOTZ",
                 },
                 {
                     name: "Health",
@@ -265,7 +265,7 @@ export default {
                 },
                 {
                     name: "Others",
-                    symbols: "LAC,LTHM,FCEL,SQM,AAL",
+                    symbols: "FCEL,LAC,LTHM,SQM,AAL",
                 },
             ],
 
