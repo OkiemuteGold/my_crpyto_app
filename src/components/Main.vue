@@ -327,12 +327,14 @@ export default {
                 this.stockDetails.sort((a, b) => {
                     return a - b;
                 });
-                console.log(categoryName);
+
+                // console.log(categoryName);
             } else if (categoryName === "Price") {
                 this.stockDetails.sort((a, b) => {
                     return a.regularMarketPrice - b.regularMarketPrice;
                 });
-                console.log(categoryName);
+
+                // console.log(categoryName);
             }
         },
     },

@@ -16,7 +16,7 @@ export const fetchStockDetails = async ({ commit, state }, symbols) => {
 
     await axios.get(url, options).then(response => {
         commit("FETCHED_STOCK_DETAILS", response.data.quoteResponse.result);
-        console.log(response.data);
+        // console.log(response.data);
 
     }).catch(err => {
         console.log(err);
@@ -38,7 +38,7 @@ export const fetchCompanyInfo = async ({ commit, state }, tickerSymbols) => {
 
     await axios.get(url, options).then(response => {
         commit("FETCHED_COMPANY_INFO", response.data.quoteSummary.result)
-        console.log(response.data);
+        // console.log(response.data);
 
     }).catch(err => {
         console.log(err);

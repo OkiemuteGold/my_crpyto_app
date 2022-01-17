@@ -123,12 +123,12 @@ export default {
 
         showPlatform(platform) {
             if (platform.toLowerCase() == "stocks") {
-                console.log("Stocks clicked");
+                // console.log("Stocks clicked");
 
                 this.$emit("stock", true);
                 this.$emit("crypto", false);
             } else if (platform.toLowerCase() == "crypto") {
-                console.log("Crypto clicked");
+                // console.log("Crypto clicked");
 
                 this.$emit("stock", false);
                 this.$emit("crypto", true);

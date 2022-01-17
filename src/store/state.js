@@ -1,6 +1,10 @@
+
+// const API_KEY = process.env.API_KEY;
+import API_KEY from "../../API_KEY";
+
 export default {
     baseURL: "https://yfapi.net",
-    apiKey: "KgsHEKqRzY4vBFZcpbc9i28tz4zXcg5t5wUnEr4d",
+    apiKey: API_KEY.key,
     stockDetails: [],
     companyInfo: [],
 }
