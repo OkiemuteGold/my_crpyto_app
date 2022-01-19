@@ -245,7 +245,7 @@ export default {
                 },
                 {
                     name: "Health",
-                    symbols: "NVAX,NNOX",
+                    symbols: "NVAX,NNOX,BLUE,OTRK",
                 },
                 {
                     name: "Cannabis",
@@ -261,11 +261,11 @@ export default {
                 },
                 {
                     name: "Entertainment",
-                    symbols: "FUBO,ATVI,EA,DIS,ROKU,SPOT,T,MANU",
+                    symbols: "FUBO,ATVI,DIS,ROKU,EA,SPOT,T,MANU",
                 },
                 {
                     name: "Others",
-                    symbols: "FCEL,LAC,LTHM,SQM,AAL",
+                    symbols: "FCEL,LAC,LTHM,SQM,AAL,NBR,PLTR,PTON,CENN",
                 },
             ],
 
