@@ -1,6 +1,6 @@
 
 // const API_KEY = process.env.API_KEY;
-import API_KEY from "../../API_KEY";
+import API_KEY from "../../key";
 
 export default {
     baseURL: "https://yfapi.net",
