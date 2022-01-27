@@ -811,38 +811,89 @@
                             </div>
                         </div>
 
+                        <!-- all ratings/page results -->
                         <div
                             class="
                                 d-flex
                                 flex-column flex-md-row
-                                justify-content-md-end
+                                justify-content-md-between
                             "
                         >
-                            <div class="info_item px-md-5 mb-0 mb-md-3">
+                            <!-- ratings -->
+                            <div
+                                class="info_item mb-0 mb-md-3"
+                                v-if="
+                                    returnFilteredAction ||
+                                    upgradeDowngradeHistory ||
+                                    filteredByName
+                                "
+                            >
                                 <h6>
-                                    Page:
+                                    Buy:
+                                    <span class="text"> {{ buys }}, </span>
+                                    Sell:
+                                    <span class="text"> {{ sells }}, </span>
+                                    Hold:
+                                    <span class="text"> {{ holds }}, </span>
+                                    Outperforms:
                                     <span class="text">
-                                        {{ page }} of {{ totalPageNumber }}
+                                        {{ outperforms }},
+                                    </span>
+                                    Overweight:
+                                    <span class="text">
+                                        {{ overweights }},
+                                    </span>
+                                    Underweight:
+                                    <span class="text">
+                                        {{ underweights }},
+                                    </span>
+                                    Neutral:
+                                    <span class="text">
+                                        {{ neutrals }}
                                     </span>
                                 </h6>
                             </div>
-                            <div class="info_item px-md-5 mb-0 mb-md-3">
-                                <h6>
-                                    Showing result:
-                                    <span class="text">
-                                        {{ filteredByName.length }} of
-                                        {{ upgradeDowngradeHistory.length }}
-                                    </span>
-                                    <br />
-                                    <span class="text" v-if="selectedFirmName">
-                                        {{ selectedFirmName }}:
-                                        <!-- {{ allUdGradeHistoryTotal }} -->
-                                    </span>
-                                </h6>
+
+                            <!-- page results -->
+                            <div
+                                class="
+                                    d-flex
+                                    flex-column flex-md-row
+                                    justify-content-md-end
+                                    w-100
+                                    border-top
+                                    pt-2 pt-md-0
+                                "
+                            >
+                                <div class="info_item px-md-4 mb-0 mb-md-3">
+                                    <h6>
+                                        Page:
+                                        <span class="text">
+                                            {{ page }} of {{ totalPageNumber }}
+                                        </span>
+                                    </h6>
+                                </div>
+                                <div class="info_item pl-md-4 mb-0 mb-md-3">
+                                    <h6>
+                                        Showing result:
+                                        <span class="text">
+                                            {{ filteredByName.length }} of
+                                            {{ upgradeDowngradeHistory.length }}
+                                        </span>
+                                        <br />
+                                        <span
+                                            class="text"
+                                            v-if="selectedFirmName"
+                                        >
+                                            {{ selectedFirmName }}
+                                            <!-- {{ allUdGradeHistoryTotal }} -->
+                                        </span>
+                                    </h6>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mt-2 mb-3">
+                        <div class="my-2 mb-md-3">
                             <hr />
                         </div>
 
@@ -929,6 +980,13 @@ export default {
             totalPageNumber: "",
             // allUdGradeHistoryTotal: "",
             // showErrorMessage: false,
+            buys: 0,
+            sells: 0,
+            holds: 0,
+            outperforms: 0,
+            overweights: 0,
+            underweights: 0,
+            neutrals: 0,
         };
     },
 
@@ -974,6 +1032,52 @@ export default {
         totalPages() {
             return Math.ceil(
                 this.upgradeDowngradeHistory.length / this.pageSize
+            );
+        },
+
+        returnFilteredAction() {
+            let buyCount = 0,
+                sellCount = 0,
+                holdCount = 0,
+                outPerform = 0,
+                overWeightCount = 0,
+                underWeightCount = 0,
+                neutralCount = 0;
+
+            let resultArray;
+
+            if (this.selectedFirmName !== "") {
+                resultArray = this.filteredByName;
+            } else {
+                resultArray = this.upgradeDowngradeHistory;
+            }
+
+            resultArray.forEach((action) => {
+                if (action.toGrade == "Buy") {
+                    return (this.buys = buyCount += 1);
+                } else if (action.toGrade == "Sell") {
+                    return (this.sells = sellCount += 1);
+                } else if (action.toGrade == "Hold") {
+                    return (this.holds = holdCount += 1);
+                } else if (action.toGrade == "Outperform") {
+                    return (this.outperforms = outPerform += 1);
+                } else if (action.toGrade == "Overweight") {
+                    return (this.overweights = overWeightCount += 1);
+                } else if (action.toGrade == "Underweight") {
+                    return (this.underweights = underWeightCount += 1);
+                } else {
+                    return (this.neutrals = neutralCount += 1);
+                }
+            });
+
+            return (
+                this.buys,
+                this.sells,
+                this.holds,
+                this.outperforms,
+                this.overweights,
+                this.underweights,
+                this.neutrals
             );
         },
 
@@ -1114,7 +1218,7 @@ export default {
     },
 
     mounted() {
-        // console.log(this.info);
+        console.log(this.info);
 
         /* make total page display once mounted */
         this.totalPageNumber = this.totalPages;
@@ -1281,7 +1385,7 @@ export default {
 }
 
 #udGradeHistory hr {
-    margin: 0.5rem 0 1rem;
+    margin: 0.5rem 0 0.5rem;
 }
 
 .tab-content > .tab-pane .info_item .selectField {
@@ -1290,6 +1394,12 @@ export default {
     border: 1px solid var(--lightestGray);
     color: var(--textColor);
     border-radius: 4px;
+}
+
+@media (min-width: 768px) {
+    .border-top {
+        border-top: 0 !important;
+    }
 }
 
 @media screen and (max-width: 541px) {
