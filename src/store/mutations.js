@@ -5,3 +5,7 @@ export const FETCHED_STOCK_DETAILS = (state, data) => {
 export const FETCHED_COMPANY_INFO = (state, data) => {
     state.companyInfo = data;
 }
+
+export const FETCHED_CRYPTO_DATA = (state, data) => {
+    state.cryptoData = data;
+}

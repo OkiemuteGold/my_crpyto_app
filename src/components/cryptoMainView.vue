@@ -1,15 +1,17 @@
 <template>
-    <main>
+    <main class="crypto_bg">
         <section class="pt-5 pb-0 text-center container">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
                     <h1 class="fw-light p-2">App Intro</h1>
-                    <p class="lead text-muted">
-                        Select platform to get all crypto data available
+                    <p class="lead">
+                        Select platform to get all crypto data that is available
+                        or click any of the buttons below to visit the listed
+                        sections
                     </p>
                     <p>
-                        <a href="#GetStockInfo" class="btn btn-primary m-2"
-                            >Get Stock Info</a
+                        <a href="#GetCryptoInfo" class="btn btn-primary m-2"
+                            >Get Crypto Info</a
                         >
                         <a href="#MyWatchlist" class="btn btn-success m-2"
                             >My Watchlist</a
@@ -19,7 +21,7 @@
             </div>
         </section>
 
-        <section class="section_bg_left">
+        <section>
             <div class="inner_container">
                 <div class="container">
                     <div class="row">
@@ -33,7 +35,45 @@
             </div>
         </section>
 
-        <section class="section_bg_right">
+        <section class="pb-5" id="GetCryptoInfo">
+            <div class="inner_container">
+                <div class="container">
+                    <div class="row">
+                        <div class="section_head col-12 text-center">
+                            <img
+                                src="../../public/img/img_icons/mid1_fin_search.svg"
+                                alt=""
+                                width="100"
+                                height="100"
+                                class="mb-2"
+                            />
+
+                            <h2>Get Crypto Info</h2>
+                        </div>
+
+                        <div class="col-12">
+                            <div
+                                v-if="cryptoData && cryptoData.length > 0"
+                                class="row"
+                            >
+                                <cryptoInfo
+                                    v-for="(currency, index) in cryptoData"
+                                    :key="index"
+                                    :currency="currency"
+                                />
+                            </div>
+
+                            <NotFound
+                                msg="Please check your internet connection..."
+                                v-else
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
             <div class="inner_container">
                 <div class="container">
                     <div class="row">
@@ -90,15 +130,21 @@
 
 <script>
 import PageIntro from "./PageIntro.vue";
-// import FeatureItem from "./FeatureItem.vue";
+import cryptoInfo from "./cryptoInfo.vue";
+import NotFound from "./NotFound.vue";
+
+import { mapGetters } from "vuex";
 
 export default {
     name: "Home",
     components: {
         PageIntro,
-        // FeatureItem,
+        cryptoInfo,
+        NotFound,
     },
-    computed: {},
+    computed: {
+        ...mapGetters(["cryptoData"]),
+    },
     data() {
         return {
             introItems: [
@@ -108,12 +154,12 @@ export default {
                         "Providing clean and relevant data, quality images, and credible sources are essential elements of the services provided",
                     icon: require("../../public/img/img_icons/server.svg"),
                 },
-                {
-                    title: "News Article",
-                    description:
-                        "Providing news items/articles that are relevant to the specified company ticker",
-                    icon: require("../../public/img/img_icons/text-lines.svg"),
-                },
+                // {
+                //     title: "News Article",
+                //     description:
+                //         "Providing news items/articles that are relevant to the specified company ticker",
+                //     icon: require("../../public/img/img_icons/text-lines.svg"),
+                // },
                 {
                     title: "Video News",
                     description:
@@ -136,12 +182,28 @@ export default {
 </script>
 
 <style scoped>
+.crypto_bg {
+    background: var(--lightBlue);
+}
+
 .feature_buttons h5 {
     margin-bottom: 10px;
     text-decoration: underline;
 }
 
+.feature_buttons span {
+    color: var(--textColor);
+    border-color: var(--textColor);
+}
+
+.feature_buttons span:hover,
 .feature_buttons span.active {
+    color: var(--lightBlue);
     background-color: var(--textColor);
+}
+
+h1,
+h2 {
+    color: var(--customWhite);
 }
 </style>

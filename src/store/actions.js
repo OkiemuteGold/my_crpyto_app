@@ -45,10 +45,26 @@ export const fetchCompanyInfo = async ({ commit, state }, tickerSymbols) => {
     })
 }
 
+export const fetchCryptoData = async ({ commit, state }) => {
+    let cryptoUrl = `${state.baseCryptoURL}/tickers`
+
+    await axios.get(cryptoUrl).then(response => {
+        commit("FETCHED_CRYPTO_DATA", response.data)
+        console.log(response.data);
+
+    }).catch(err => {
+        console.log(err);
+    })
+}
+
 export const saveStockDetails = ({ commit }, data) => {
     commit("FETCHED_STOCK_DETAILS", data);
 }
 
 export const saveCompanyInfo = ({ commit }, data) => {
     commit("FETCHED_COMPANY_INFO", data);
+}
+
+export const saveCryptoData = ({ commit }, data) => {
+    commit("FETCHED_CRYPTO_DATA", data);
 }

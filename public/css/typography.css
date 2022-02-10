@@ -11,13 +11,12 @@ h5,
 h6 {
   font-family: var(--fontJosefin);
   font-weight: 500;
-  margin: 0 0 0.9375rem;
+  margin: 0 0 0.9375rem !important;
   line-height: 1.1;
 }
 
 a {
   font-size: var(--size14);
-  transition: 0.3s ease;
   text-decoration: none;
 }
 

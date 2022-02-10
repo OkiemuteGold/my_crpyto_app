@@ -1218,7 +1218,7 @@ export default {
     },
 
     mounted() {
-        console.log(this.info);
+        // console.log(this.info);
 
         /* make total page display once mounted */
         this.totalPageNumber = this.totalPages;

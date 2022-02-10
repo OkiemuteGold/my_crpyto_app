@@ -2,9 +2,9 @@
     <div id="app">
         <Header @stock="showStockPlatform" @crypto="showCryptoPlatform" />
 
-        <Main v-if="stockMainShown" />
+        <stockMainView v-if="stockMainShown" />
 
-        <CryptoMain v-if="cryptoMainShown" />
+        <cryptoMainView v-if="cryptoMainShown" />
 
         <router-view />
     </div>
@@ -12,10 +12,10 @@
 
 <script>
 import Header from "./components/Header.vue";
-import Main from "./components/Main.vue";
+import stockMainView from "./components/stockMainView.vue";
 
 import { mapActions } from "vuex";
-import CryptoMain from "./components/CryptoMain.vue";
+import cryptoMainView from "./components/cryptoMainView.vue";
 
 export default {
     data() {
@@ -28,16 +28,18 @@ export default {
 
     components: {
         Header,
-        Main,
-        CryptoMain,
+        stockMainView,
+        cryptoMainView,
     },
 
     methods: {
         ...mapActions([
             "fetchStockDetails",
             "fetchCompanyInfo",
+            "fetchCryptoData",
             "saveStockDetails",
             "saveCompanyInfo",
+            "saveCryptoData",
         ]),
 
         showStockPlatform: function (platform) {
@@ -58,15 +60,26 @@ export default {
             ? JSON.parse(localStorage.getItem("companyInfo"))
             : [];
 
-        if (stockDetails.length > 0 || companyInfo.length > 0) {
+        let cryptoData = JSON.parse(localStorage.getItem("cryptoData"))
+            ? JSON.parse(localStorage.getItem("cryptoData"))
+            : [];
+
+        if (
+            stockDetails.length > 0 ||
+            companyInfo.length > 0 ||
+            cryptoData.length > 0
+        ) {
             this.saveStockDetails(stockDetails);
             this.saveCompanyInfo(companyInfo);
+            this.saveCompanyInfo(cryptoData);
 
             localStorage.setItem("stockDetails", stockDetails);
             localStorage.setItem("companyInfo", companyInfo);
+            localStorage.setItem("cryptoData", cryptoData);
         } else {
             this.fetchStockDetails(this.default);
             this.fetchCompanyInfo("IDEX");
+            this.fetchCryptoData();
         }
     },
 };
@@ -82,19 +95,24 @@ export default {
 
 *,
 *::before,
-*::after body {
+*::after,
+body {
     margin: 0;
     padding: 0;
 }
 
 :root {
+    --black: #212529;
     --customWhite: #f8f8f8;
     --lightestGray: #dee2e6;
     --lightGray: #b4b4b4;
-    --textColor: #6c757d;
+    --darkBlue: #151a2f;
+    --lightBlue: #1d2444;
+    --textColor: #8999a5;
     --fontJosefin: "Josefin Sans", "Helvetica Neue", Helvetica, Arial,
         sans-serif;
     --fontNunito: "Nunito", sans-serif;
+    --size12: 0.75rem;
     --size14: 0.875rem;
 }
 
@@ -111,13 +129,18 @@ body {
     overflow-x: hidden;
 }
 
+.crypto_bg .card-title,
+.crypto_bg h5 {
+    color: var(--customWhite);
+}
+
 /* scrollbar */
 ::-webkit-scrollbar {
     width: 12px;
 }
 
 .card-text .desc::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
 }
 
 /* Track */
@@ -141,9 +164,14 @@ select::-webkit-scrollbar-track {
     background: #9a9a9a;
 }
 
+a,
+.card,
 ::-webkit-scrollbar,
 ::-webkit-scrollbar-track,
 ::-webkit-scrollbar-thumb {
+    -o-transition: 0.3s ease;
+    -moz-transition: 0.3s ease;
+    -webkit-transition: 0.3s ease;
     transition: 0.3s ease;
 }
 
@@ -183,6 +211,9 @@ section {
     position: absolute;
     top: 40px;
     left: 50%;
+    -o-transform: translateX(-35px);
+    -moz-transform: translateX(-35px);
+    -webkit-transform: translateX(-35px);
     transform: translateX(-35px);
     background: url(../public/img/background/divider.png);
     background-repeat: no-repeat;

@@ -5,3 +5,7 @@ export const stockDetails = (state) => {
 export const companyInfo = (state) => {
     return state.companyInfo;
 }
+
+export const cryptoData = (state) => {
+    return state.cryptoData;
+}

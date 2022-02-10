@@ -1,11 +1,15 @@
 <template>
     <header>
-        <div class="bg-dark collapse" id="navbarHeader">
+        <div
+            :class="[stockPlat ? 'bgDark' : 'bgBlue']"
+            class="collapse"
+            id="navbarHeader"
+        >
             <div class="container">
                 <div class="row">
                     <div class="about col-sm-8 col-md-7 py-4">
                         <h4 class="text-white">About</h4>
-                        <p class="text-muted">
+                        <p>
                             Lorem ipsum dolor sit amet consectetur adipisicing
                             elit. Maiores, mollitia hic? Incidunt magnam
                             consequuntur harum, explicabo libero deserunt animi
@@ -45,7 +49,10 @@
             </div>
         </div>
 
-        <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div
+            :class="[stockPlat ? 'bgDark' : 'bgBlue']"
+            class="navbar navbar-dark shadow-sm"
+        >
             <div class="container">
                 <div class="navbar-brand d-flex align-items-center dropdown">
                     <a
@@ -111,7 +118,9 @@
 
 export default {
     data() {
-        return {};
+        return {
+            stockPlat: true,
+        };
     },
     methods: {
         // openNav() {
@@ -127,11 +136,15 @@ export default {
 
                 this.$emit("stock", true);
                 this.$emit("crypto", false);
+
+                this.stockPlat = true;
             } else if (platform.toLowerCase() == "crypto") {
                 // console.log("Crypto clicked");
 
                 this.$emit("stock", false);
                 this.$emit("crypto", true);
+
+                this.stockPlat = !this.stockPlat;
             }
         },
     },
@@ -145,6 +158,10 @@ header {
     top: 0;
     z-index: 1;
 }
+
+/* .dropdown-toggle {
+    background: var(--textColor);
+} */
 
 .dropdown-toggle::after {
     vertical-align: 0.175em;
@@ -175,12 +192,20 @@ header {
 }
 
 .contact a {
-    font-size: 0.825rem;
+    font-size: var(--size14);
     text-decoration: 1.5px underline var(--textColor);
 }
 
 .contact a:hover {
     text-decoration: none var(--textColor);
-    color: var(--lightGray) !important;
+    color: var(--textColor) !important;
+}
+
+.bgDark {
+    background: var(--black);
+}
+
+.bgBlue {
+    background: var(--darkBlue);
 }
 </style>

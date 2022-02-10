@@ -4,7 +4,7 @@
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
                     <h1 class="fw-light p-2">App Intro</h1>
-                    <p class="lead text-muted">
+                    <p class="lead">
                         Select platform to get all stock and crypto data
                         available or click any of the buttons below to visit the
                         listed sections
@@ -35,7 +35,7 @@
             </div>
         </section>
 
-        <section class="bg-white pb-0" id="GetStockInfo">
+        <section class="bg-white pb-5" id="GetStockInfo">
             <div class="inner_container">
                 <div class="container">
                     <div class="row">
@@ -58,6 +58,11 @@
                                 :info="info"
                             />
                         </div>
+
+                        <NotFound
+                            msg="Please check your internet connection..."
+                            v-else
+                        />
                     </div>
                 </div>
 
@@ -113,12 +118,17 @@
                         v-if="stockDetails && stockDetails.length > 0"
                     >
                         <watchList
-                            class="col-12 col-md-6 col-lg-4 mb-3"
+                            class="watchlist col-12 col-md-6 col-lg-4 mb-4"
                             v-for="(watchlistStock, index) in stockDetails"
                             :key="index"
                             :wlStock="watchlistStock"
                         />
                     </div>
+
+                    <NotFound
+                        msg="Please check your internet connection..."
+                        v-else
+                    />
                 </div>
             </div>
         </section>
@@ -171,6 +181,8 @@
                                 :info="info"
                             />
                         </div> -->
+
+                        <NotFound msg="Not yet available..." />
                     </div>
                 </div>
             </div>
@@ -183,20 +195,23 @@ import PageIntro from "./PageIntro.vue";
 import MainCompanyInfo from "./mainCompanyInfo.vue";
 import watchList from "./watchList.vue";
 // import FeatureItem from "./FeatureItem.vue";
+import NotFound from "./NotFound.vue";
 
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-    name: "Home",
     components: {
         PageIntro,
         MainCompanyInfo,
         watchList,
         // FeatureItem,
+        NotFound,
     },
+
     computed: {
         ...mapGetters(["companyInfo", "stockDetails"]),
     },
+
     data() {
         return {
             introItems: [
@@ -279,6 +294,7 @@ export default {
             ],
         };
     },
+
     methods: {
         ...mapActions(["fetchStockDetails"]),
 
@@ -355,5 +371,11 @@ export default {
 
 .feature_buttons span.active {
     background-color: var(--textColor);
+}
+
+@media screen and (max-width: 541px) {
+    .watchlist:last-of-type {
+        margin-bottom: 0 !important;
+    }
 }
 </style>

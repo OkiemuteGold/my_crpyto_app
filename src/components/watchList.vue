@@ -33,21 +33,40 @@
                             <h6>
                                 <abbr title="Regular Market">RM</abbr> Day High:
                                 <span class="text">
-                                    {{ wlStock.regularMarketDayHigh }}
+                                    {{
+                                        wlStock.regularMarketDayHigh
+                                            | numberFormatted
+                                    }}
                                 </span>
                             </h6>
                             <h6>
                                 <abbr title="Regular Market">RM</abbr> Day Low:
                                 <span class="text">
-                                    {{ wlStock.regularMarketDayLow }}
+                                    {{
+                                        wlStock.regularMarketDayLow
+                                            | numberFormatted
+                                    }}
                                 </span>
                             </h6>
 
-                            <h6>
+                            <h6 v-if="wlStock.preMarketPrice">
+                                Pre Market Price (Change):
+                                <span class="text">
+                                    {{ wlStock.preMarketPrice }}
+                                    ({{
+                                        wlStock.preMarketChange
+                                            | numberFormatted
+                                    }})
+                                </span>
+                            </h6>
+                            <h6 v-if="wlStock.postMarketPrice">
                                 Post Market Price (Change):
                                 <span class="text">
                                     {{ wlStock.postMarketPrice }}
-                                    ({{ wlStock.postMarketChange }})
+                                    ({{
+                                        wlStock.postMarketChange
+                                            | numberFormatted
+                                    }})
                                 </span>
                             </h6>
                             <h6>
@@ -59,7 +78,7 @@
                             <h6>
                                 Book Value:
                                 <span class="text">
-                                    {{ wlStock.bookValue }}
+                                    {{ wlStock.bookValue | numberFormatted }}
                                 </span>
                             </h6>
                         </div>
@@ -71,7 +90,10 @@
                                 >):
                                 <span class="text">
                                     {{ wlStock.fiftyTwoWeekHigh }}
-                                    ({{ wlStock.fiftyTwoWeekHighChange }})
+                                    ({{
+                                        wlStock.fiftyTwoWeekHighChange
+                                            | numberFormatted
+                                    }})
                                 </span>
                             </h6>
                             <h6>
@@ -80,7 +102,10 @@
                                 >):
                                 <span class="text">
                                     {{ wlStock.fiftyTwoWeekLow }}
-                                    ({{ wlStock.fiftyTwoWeekLowChange }})
+                                    ({{
+                                        wlStock.fiftyTwoWeekLowChange
+                                            | numberFormatted
+                                    }})
                                 </span>
                             </h6>
 
@@ -90,7 +115,10 @@
                                 >):
                                 <span class="text">
                                     {{ wlStock.fiftyDayAverage }}
-                                    ({{ wlStock.fiftyDayAverageChange }})
+                                    ({{
+                                        wlStock.fiftyDayAverageChange
+                                            | numberFormatted
+                                    }})
                                 </span>
                             </h6>
                             <h6>
@@ -100,7 +128,10 @@
                                 >):
                                 <span class="text">
                                     {{ wlStock.twoHundredDayAverage }}
-                                    ({{ wlStock.twoHundredDayAverageChange }})
+                                    ({{
+                                        wlStock.twoHundredDayAverageChange
+                                            | numberFormatted
+                                    }})
                                 </span>
                             </h6>
                         </div>
@@ -122,14 +153,20 @@
                                 <h6>
                                     Name Change Date:
                                     <span class="text">
-                                        {{ wlStock.nameChangeDate }}
+                                        {{
+                                            wlStock.nameChangeDate
+                                                | convertEpochToJsDate
+                                        }}
                                     </span>
                                 </h6>
                             </div>
                             <h6>
                                 First Trade Date:
                                 <span class="text">
-                                    {{ wlStock.firstTradeDateMilliseconds }}
+                                    {{
+                                        wlStock.firstTradeDateMilliseconds
+                                            | convertEpochToJsDate
+                                    }}
                                 </span>
                             </h6>
                         </div>
@@ -176,7 +213,7 @@
                             <h6>
                                 Forward PE:
                                 <span class="text">
-                                    {{ wlStock.forwardPE }}
+                                    {{ wlStock.forwardPE | numberFormatted }}
                                 </span>
                             </h6>
                             <h6>
@@ -194,7 +231,10 @@
                             <h6>
                                 Earnings Timestamp:
                                 <span class="text">
-                                    {{ wlStock.earningsTimestamp }}
+                                    {{
+                                        wlStock.earningsTimestamp
+                                            | convertEpochToJsDate
+                                    }}
                                 </span>
                             </h6>
                         </div>
@@ -209,6 +249,44 @@
 export default {
     props: ["wlStock"],
 
+    filters: {
+        /* convert epoch date to js readable date */
+        convertEpochToJsDate: function (value) {
+            let timestamp = value;
+
+            function isValidTimestamp(timestamp) {
+                const newTimestamp = new Date(timestamp).getTime();
+                return isNumeric(newTimestamp);
+            }
+
+            function isNumeric(n) {
+                return !isNaN(parseFloat(n)) && isFinite(n);
+            }
+
+            if (!isNumeric(timestamp)) {
+                return timestamp;
+            }
+
+            if (isValidTimestamp(timestamp) == true) {
+                let date = new Date(timestamp * 1000);
+
+                let year = date.getFullYear(),
+                    month = date.getMonth() + 1,
+                    day = date.getDate(),
+                    hours = date.getHours(),
+                    minutes = date.getMinutes(),
+                    seconds = date.getSeconds();
+
+                return `${day}-${month}-${year} | ${hours}:${minutes}:${seconds}`;
+            }
+        },
+
+        /* convert numbers to 3 DP */
+        numberFormatted: function (value) {
+            return Number.parseFloat(value).toFixed(3);
+        },
+    },
+
     // mounted() {
     //     console.log(this.wlStock);
     // },
@@ -218,7 +296,6 @@ export default {
 <style scoped>
 .card-body {
     background: var(--customWhite);
-    /* padding: 1.25rem; */
     -o-transition: 0.3s ease;
     -moz-transition: 0.3s ease;
     -webkit-transition: 0.3s ease;
