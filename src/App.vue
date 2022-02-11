@@ -20,7 +20,7 @@ import cryptoMainView from "./components/cryptoMainView.vue";
 export default {
     data() {
         return {
-            default: "IDEX,LAZR,FSR,BBBY,PLUG,BLNK,ATER,RIOT,WISH,JMIA",
+            default: "IDEX,LAZR,FSR,BBBY,PLUG,BLNK,NVAX,RIOT,WISH,JMIA",
             stockMainShown: true,
             cryptoMainShown: false,
         };

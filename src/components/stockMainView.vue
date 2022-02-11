@@ -244,15 +244,15 @@ export default {
             stockCategories: [
                 {
                     name: "Default",
-                    symbols: "IDEX,LAZR,FSR,BBBY,PLUG,BLNK,ATER,RIOT,WISH,JMIA",
+                    symbols: "IDEX,LAZR,FSR,BBBY,PLUG,BLNK,NVAX,RIOT,WISH,JMIA",
                 },
                 {
                     name: "EVs",
-                    symbols: "WKHS,XPEV,QCOM,SQM,FSR,F,NIO,BLNK,AMD,INTC",
+                    symbols: "WKHS,XPEV,QCOM,FSR,F,NIO,BLNK,CHPT,AMD,INTC",
                 },
                 {
                     name: "Self Driving",
-                    symbols: "LAZR,AAPL,TSLA,F,APTV,GM,VLDR",
+                    symbols: "LAZR,MVIS,AAPL,TSLA,F,APTV,GM,VLDR",
                 },
                 {
                     name: "Crypto",
@@ -279,8 +279,12 @@ export default {
                     symbols: "FUBO,ATVI,DIS,ROKU,EA,SPOT,T,MANU",
                 },
                 {
+                    name: "Ecommerce",
+                    symbols: "AFRM,ATER,WISH,JMIA,COST,CENN",
+                },
+                {
                     name: "Others",
-                    symbols: "FCEL,LAC,LTHM,SQM,AAL,NBR,PLTR,PTON,CENN",
+                    symbols: "FCEL,LAC,LTHM,SQM,AAL,NBR,PLTR,UPST,PTON",
                 },
             ],
 
