@@ -8,5 +8,6 @@ export default {
     apiKey: API_KEY.key,
     stockDetails: [],
     companyInfo: [],
+    chartDetails: [],
     cryptoData: [],
 }

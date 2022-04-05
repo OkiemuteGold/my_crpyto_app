@@ -3,7 +3,18 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">
-                    <u>{{ wlStock.displayName }} ({{ wlStock.symbol }})</u>
+                    <u>
+                        <span
+                            class="text-capitalize"
+                            v-if="wlStock.displayName"
+                        >
+                            {{ wlStock.displayName }}
+                        </span>
+                        <span class="text-capitalize" v-else>
+                            {{ wlStock.longName }}
+                        </span>
+                        ({{ wlStock.symbol | upperCased }})
+                    </u>
                 </h5>
 
                 <div class="card-text">
@@ -285,7 +296,32 @@ export default {
         numberFormatted: function (value) {
             return Number.parseFloat(value).toFixed(3);
         },
+
+        upperCased: function (value) {
+            return value.toUpperCase();
+        },
     },
+
+    // data() {
+    //     return {
+    //         companyName: this.wlStock.displayName,
+    //     };
+    // },
+
+    // watch: {
+    //     data: {
+    //         immediate: true,
+    //         deep: true,
+    //         handler(newValue, oldValue) {
+    //             oldValue = this.wlStock.displayName;
+    //             newValue = this.wlStock.longName;
+
+    //             oldValue
+    //                 ? (this.companyName = oldValue)
+    //                 : (this.companyName = newValue);
+    //         },
+    //     },
+    // },
 
     // mounted() {
     //     console.log(this.wlStock);

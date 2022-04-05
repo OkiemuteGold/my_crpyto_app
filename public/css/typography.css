@@ -1,6 +1,6 @@
 .text-underlined {
-  text-decoration: underline;
-  text-transform: capitalize;
+  text-decoration: 1.5px underline;
+  text-transform: inherit;
 }
 
 h1,

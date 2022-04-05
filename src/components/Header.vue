@@ -23,6 +23,7 @@
                                 <a
                                     href="https://github.com/OkiemuteGold"
                                     target="_blank"
+                                    rel="noopener noreferrer"
                                     class="text-white"
                                     >Github</a
                                 >
@@ -31,6 +32,7 @@
                                 <a
                                     href="https://www.linkedin.com/in/okiemute-gold"
                                     target="_blank"
+                                    rel="noopener noreferrer"
                                     class="text-white"
                                     >LinkedIn</a
                                 >
@@ -39,6 +41,7 @@
                                 <a
                                     href="mailto: goldokiemute1@gmail.com"
                                     target="_blank"
+                                    rel="noopener noreferrer"
                                     class="text-white"
                                     >Email me</a
                                 >
@@ -144,7 +147,7 @@ export default {
                 this.$emit("stock", false);
                 this.$emit("crypto", true);
 
-                this.stockPlat = !this.stockPlat;
+                this.stockPlat = false;
             }
         },
     },
@@ -206,6 +209,6 @@ header {
 }
 
 .bgBlue {
-    background: var(--darkBlue);
+    background: var(--darkerBlue);
 }
 </style>

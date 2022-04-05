@@ -23,6 +23,15 @@ export default {
             default: "IDEX,LAZR,FSR,BBBY,PLUG,BLNK,NVAX,RIOT,WISH,JMIA",
             stockMainShown: true,
             cryptoMainShown: false,
+
+            // interval: 1m 5m 15m 1d 1wk 1mo
+            // range: 1d 5d 1mo 3mo 6mo 1y 5y 10y ytd max
+
+            parameters: {
+                interval: "5m",
+                range: "1d",
+                symbol: "IDEX",
+            },
         };
     },
 
@@ -36,9 +45,11 @@ export default {
         ...mapActions([
             "fetchStockDetails",
             "fetchCompanyInfo",
+            "fetchChartDetails",
             "fetchCryptoData",
             "saveStockDetails",
             "saveCompanyInfo",
+            "saveChartDetails",
             "saveCryptoData",
         ]),
 
@@ -60,6 +71,10 @@ export default {
             ? JSON.parse(localStorage.getItem("companyInfo"))
             : [];
 
+        let chartDetails = JSON.parse(localStorage.getItem("chartDetails"))
+            ? JSON.parse(localStorage.getItem("chartDetails"))
+            : [];
+
         let cryptoData = JSON.parse(localStorage.getItem("cryptoData"))
             ? JSON.parse(localStorage.getItem("cryptoData"))
             : [];
@@ -67,20 +82,26 @@ export default {
         if (
             stockDetails.length > 0 ||
             companyInfo.length > 0 ||
+            chartDetails.length > 0 ||
             cryptoData.length > 0
         ) {
             this.saveStockDetails(stockDetails);
             this.saveCompanyInfo(companyInfo);
-            this.saveCompanyInfo(cryptoData);
+            this.saveChartDetails(chartDetails);
+            this.saveCryptoData(cryptoData);
 
             localStorage.setItem("stockDetails", stockDetails);
             localStorage.setItem("companyInfo", companyInfo);
+            localStorage.setItem("chartDetails", chartDetails);
             localStorage.setItem("cryptoData", cryptoData);
         } else {
             this.fetchStockDetails(this.default);
             this.fetchCompanyInfo("IDEX");
+            this.fetchChartDetails(this.parameters);
             this.fetchCryptoData();
         }
+
+        // console.log(this.parameters);
     },
 };
 </script>
@@ -106,8 +127,9 @@ body {
     --customWhite: #f8f8f8;
     --lightestGray: #dee2e6;
     --lightGray: #b4b4b4;
-    --darkBlue: #151a2f;
-    --lightBlue: #1d2444;
+    --lightBlue: #0d6ef8;
+    --darkerBlue: #151a2f;
+    --darkBlue: #1d2444;
     --textColor: #8999a5;
     --fontJosefin: "Josefin Sans", "Helvetica Neue", Helvetica, Arial,
         sans-serif;
@@ -127,6 +149,8 @@ body {
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
     overflow-x: hidden;
+    box-sizing: border-box;
+    font-family: var(--fontNunito);
 }
 
 .crypto_bg .card-title,
@@ -165,7 +189,10 @@ select::-webkit-scrollbar-track {
 }
 
 a,
+button,
+.filter_container li span input,
 .card,
+.toggle_officers_tab .tab_arrow,
 ::-webkit-scrollbar,
 ::-webkit-scrollbar-track,
 ::-webkit-scrollbar-thumb {

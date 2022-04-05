@@ -43,6 +43,24 @@
                         Profile
                     </button>
                 </li>
+                <li
+                    v-if="stockChartDetails && stockChartDetails.length > 0"
+                    class="nav-item"
+                    role="presentation"
+                >
+                    <button
+                        class="nav-link"
+                        id="charts-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#charts"
+                        type="button"
+                        role="tab"
+                        aria-controls="charts"
+                        aria-selected="true"
+                    >
+                        Charts
+                    </button>
+                </li>
                 <li class="nav-item" role="presentation">
                     <button
                         class="nav-link"
@@ -102,20 +120,7 @@
                 </li>
             </ul>
 
-            <div
-                class="tab-content"
-                id="myTabContent"
-                v-if="
-                    assetProfile ||
-                    defaultKeyStatistics ||
-                    summaryDetail ||
-                    financialData ||
-                    earningsHistory ||
-                    calendarEvents ||
-                    recommendationTrend ||
-                    upgradeDowngradeHistory
-                "
-            >
+            <div class="tab-content" id="myTabContent" v-if="isValidInfos">
                 <!-- profile tab -->
                 <div
                     class="tab-pane fade show active"
@@ -169,22 +174,58 @@
                                 }}</span>
                             </h6>
                         </div>
-                        <div class="info_item">
-                            <h6>
-                                Company Officers:
-                                <span class="text">{{
-                                    assetProfile.companyOfficers.length
-                                }}</span>
+
+                        <div
+                            class="info_item toggle_officers_tab"
+                            @click="toggleOfficers"
+                        >
+                            <h6
+                                class="text-underlined"
+                                data-bs-toggle="collapse"
+                                href="#toggleOfficers"
+                                role="button"
+                                aria-expanded="false"
+                                aria-controls="toggleOfficers"
+                            >
+                                Company Officers
+                                <span class="text"
+                                    >({{
+                                        assetProfile.companyOfficers.length
+                                    }})</span
+                                >
+                                <span class="tab_arrow"></span>
                             </h6>
                         </div>
-                        <div class="info_item">
-                            <h6>
-                                {{ assetProfile.companyOfficers[0].title }}:
-                                <span class="text">{{
-                                    assetProfile.companyOfficers[0].name
-                                }}</span>
-                            </h6>
+                        <div id="toggleOfficers" class="info_item collapse">
+                            <span
+                                v-for="(
+                                    officer, index
+                                ) in assetProfile.companyOfficers"
+                                :key="index"
+                            >
+                                <h6
+                                    class="company_officers"
+                                    v-if="officer.name && officer.title"
+                                >
+                                    <span class="text numbering"
+                                        >{{ index + 1 }}.</span
+                                    >
+                                    {{ officer.name }}
+
+                                    <span class="text"
+                                        >({{ officer.title }})
+                                        <a
+                                            :href="`https://www.google.com/search?q=${officer.name} ${name}`"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            :title="`Search ${officer.name} on google`"
+                                            >##</a
+                                        ></span
+                                    >
+                                </h6>
+                            </span>
                         </div>
+
                         <div class="info_item">
                             <h6>
                                 Fulltime Employees:
@@ -216,6 +257,7 @@
                                     <a
                                         :href="`${assetProfile.website}`"
                                         target="_blank"
+                                        rel="noopener noreferrer"
                                     >
                                         {{ assetProfile.website }}
                                     </a>
@@ -223,6 +265,91 @@
                             </h6>
                         </div>
                     </span>
+                </div>
+
+                <!-- chart tab -->
+                <div
+                    class="tab-pane fade"
+                    id="charts"
+                    role="tabpanel"
+                    aria-labelledby="charts-tab"
+                    v-if="stockChartDetails && stockChartDetails.length > 0"
+                >
+                    <div class="row">
+                        <div class="col-12">
+                            <stockChart
+                                v-for="(chartInfo, index) in stockChartDetails"
+                                :key="index"
+                                :chartInfo="chartInfo"
+                                :name="chartInfo.meta.symbol"
+                            />
+                        </div>
+
+                        <!-- left -->
+                        <!-- <div class="col-12 col-md-6">
+                            <div class="info_item">
+                                <h6>
+                                    Target Mean Price:
+                                    <span class="text">{{
+                                        financialData.targetMeanPrice.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6
+                                    v-if="
+                                        defaultKeyStatistics.sharesShort.fmt ||
+                                        defaultKeyStatistics.dateShortInterest
+                                            .fmt
+                                    "
+                                >
+                                    Shares Short (<abbr title="Short Interest"
+                                        >SI</abbr
+                                    >
+                                    Date):
+                                    <span class="text">
+                                        {{
+                                            defaultKeyStatistics.sharesShort.fmt
+                                        }}
+                                        ({{
+                                            defaultKeyStatistics
+                                                .dateShortInterest.fmt
+                                        }})
+                                    </span>
+                                </h6>
+                            </div>
+                        </div> -->
+
+                        <!-- right -->
+                        <!-- <div class="col-12 col-md-6">
+                            <div class="info_item">
+                                <h6
+                                    title="The amount of an asset or security that changes hands over some period of 10 days"
+                                >
+                                    Average Volume 10days:
+                                    <span class="text">{{
+                                        summaryDetail.averageVolume10days.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div
+                                class="info_item"
+                                v-if="summaryDetail.exDividendDate.fmt"
+                            >
+                                <h6>
+                                    Ex Dividend Date:
+                                    <span class="text">
+                                        <time
+                                            :datetime="`${summaryDetail.exDividendDate.fmt}`"
+                                            >{{
+                                                summaryDetail.exDividendDate.fmt
+                                            }}
+                                        </time>
+                                    </span>
+                                </h6>
+                            </div>
+                        </div> -->
+                    </div>
                 </div>
 
                 <!-- financials tab -->
@@ -237,14 +364,6 @@
                         <div class="col-12 col-md-6">
                             <div class="info_item">
                                 <h6>
-                                    Current Price:
-                                    <span class="text">{{
-                                        financialData.currentPrice.fmt
-                                    }}</span>
-                                </h6>
-                            </div>
-                            <div class="info_item">
-                                <h6>
                                     Previous Close:
                                     <span class="text">{{
                                         summaryDetail.previousClose.fmt
@@ -256,6 +375,14 @@
                                     Open:
                                     <span class="text">{{
                                         summaryDetail.open.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6>
+                                    Current Price:
+                                    <span class="text">{{
+                                        financialData.currentPrice.fmt
                                     }}</span>
                                 </h6>
                             </div>
@@ -337,6 +464,66 @@
                                     <span class="text">{{
                                         financialData.targetMeanPrice.fmt
                                     }}</span>
+                                </h6>
+                            </div>
+                            <div class="info_item">
+                                <h6
+                                    v-if="
+                                        defaultKeyStatistics.sharesShort.fmt ||
+                                        defaultKeyStatistics.dateShortInterest
+                                            .fmt
+                                    "
+                                >
+                                    Shares Short (<abbr title="Short Interest"
+                                        >SI</abbr
+                                    >
+                                    Date):
+                                    <span class="text">
+                                        {{
+                                            defaultKeyStatistics.sharesShort.fmt
+                                        }}
+                                        ({{
+                                            defaultKeyStatistics
+                                                .dateShortInterest.fmt
+                                        }})
+                                    </span>
+                                </h6>
+
+                                <h6
+                                    v-if="
+                                        defaultKeyStatistics
+                                            .sharesShortPriorMonth.fmt &&
+                                        defaultKeyStatistics
+                                            .sharesShortPreviousMonthDate.fmt
+                                    "
+                                >
+                                    <abbr title="Shares Short">SS</abbr>
+                                    Prior Month (Date):
+                                    <span class="text">
+                                        {{
+                                            defaultKeyStatistics
+                                                .sharesShortPriorMonth.fmt
+                                        }}
+                                        ({{
+                                            defaultKeyStatistics
+                                                .sharesShortPreviousMonthDate
+                                                .fmt
+                                        }})
+                                    </span>
+                                </h6>
+
+                                <h6
+                                    v-if="
+                                        !defaultKeyStatistics.dateShortInterest
+                                            .fmt &&
+                                        !defaultKeyStatistics.sharesShort.fmt &&
+                                        !defaultKeyStatistics
+                                            .sharesShortPriorMonth.fmt &&
+                                        !defaultKeyStatistics
+                                            .sharesShortPreviousMonthDate.fmt
+                                    "
+                                >
+                                    <span class="text">None Available</span>
                                 </h6>
                             </div>
                         </div>
@@ -421,7 +608,10 @@
                                     </span>
                                 </h6>
                             </div>
-                            <div class="info_item">
+                            <div
+                                class="info_item"
+                                v-if="summaryDetail.exDividendDate.fmt"
+                            >
                                 <h6>
                                     Ex Dividend Date:
                                     <span class="text">
@@ -434,7 +624,10 @@
                                     </span>
                                 </h6>
                             </div>
-                            <div class="info_item">
+                            <div
+                                class="info_item"
+                                v-if="summaryDetail.dividendYield.fmt"
+                            >
                                 <h6
                                     title="financial ratio (dividend/price) that shows how much a company pays out in dividends each year relative to its stock price"
                                 >
@@ -444,7 +637,13 @@
                                     }}</span>
                                 </h6>
                             </div>
-                            <div class="info_item">
+                            <div
+                                class="info_item"
+                                v-if="
+                                    summaryDetail.trailingAnnualDividendYield
+                                        .fmt
+                                "
+                            >
                                 <h6
                                     title="Actual dividend payments relative to the share price over the previous 12 months"
                                 >
@@ -455,7 +654,12 @@
                                     }}</span>
                                 </h6>
                             </div>
-                            <div class="info_item">
+                            <div
+                                class="info_item"
+                                v-if="
+                                    summaryDetail.fiveYearAvgDividendYield.fmt
+                                "
+                            >
                                 <h6
                                     title="Actual dividend payments relative to the share price over the previous 12 months"
                                 >
@@ -464,6 +668,50 @@
                                         summaryDetail.fiveYearAvgDividendYield
                                             .fmt
                                     }}</span>
+                                </h6>
+                            </div>
+                            <div
+                                class="info_item"
+                                v-if="
+                                    defaultKeyStatistics.heldPercentInsiders
+                                        .fmt ||
+                                    defaultKeyStatistics.heldPercentInstitutions
+                                        .fmt
+                                "
+                            >
+                                <h6>
+                                    Insiders' Held Percent:
+                                    <span class="text">{{
+                                        defaultKeyStatistics.heldPercentInsiders
+                                            .fmt
+                                    }}</span>
+                                </h6>
+                                <h6>
+                                    Institutions' Held Percent:
+                                    <span class="text">{{
+                                        defaultKeyStatistics
+                                            .heldPercentInstitutions.fmt
+                                    }}</span>
+                                </h6>
+                            </div>
+                            <div
+                                class="info_item"
+                                v-if="
+                                    defaultKeyStatistics.lastSplitFactor ||
+                                    defaultKeyStatistics.lastSplitDate.fmt
+                                "
+                            >
+                                <h6>
+                                    Last Split Factor (Date):
+                                    <span class="text"
+                                        >{{
+                                            defaultKeyStatistics.lastSplitFactor
+                                        }}
+                                        ({{
+                                            defaultKeyStatistics.lastSplitDate
+                                                .fmt
+                                        }})</span
+                                    >
                                 </h6>
                             </div>
                         </div>
@@ -487,34 +735,7 @@
                                 :key="index"
                             >
                                 <div class="info_item">
-                                    <h6>
-                                        <abbr title="Earnings Per Share"
-                                            >EPS</abbr
-                                        >
-                                        Actual:
-                                        <span class="text">{{
-                                            history.epsActual.fmt
-                                        }}</span>
-                                    </h6>
-                                    <h6>
-                                        <abbr title="Earnings Per Share"
-                                            >EPS</abbr
-                                        >
-                                        Estimate:
-                                        <span class="text">{{
-                                            history.epsEstimate.fmt
-                                        }}</span>
-                                    </h6>
-                                    <h6>
-                                        <abbr title="Earnings Per Share"
-                                            >EPS</abbr
-                                        >
-                                        Difference:
-                                        <span class="text">{{
-                                            history.epsDifference.fmt
-                                        }}</span>
-                                    </h6>
-                                    <h6>
+                                    <h6 class="text-underlined">
                                         Period (Quarter):
                                         <span class="text">
                                             {{
@@ -529,6 +750,43 @@
                                             )
                                         </span>
                                     </h6>
+                                    <h6 v-if="history.epsActual.fmt">
+                                        <abbr title="Earnings Per Share"
+                                            >EPS</abbr
+                                        >
+                                        Actual:
+                                        <span class="text">{{
+                                            history.epsActual.fmt
+                                        }}</span>
+                                    </h6>
+                                    <h6 v-if="history.epsEstimate.fmt">
+                                        <abbr title="Earnings Per Share"
+                                            >EPS</abbr
+                                        >
+                                        Estimate:
+                                        <span class="text">{{
+                                            history.epsEstimate.fmt
+                                        }}</span>
+                                    </h6>
+                                    <h6 v-if="history.epsDifference.fmt">
+                                        <abbr title="Earnings Per Share"
+                                            >EPS</abbr
+                                        >
+                                        Difference:
+                                        <span class="text">{{
+                                            history.epsDifference.fmt
+                                        }}</span>
+                                    </h6>
+
+                                    <h6
+                                        v-if="
+                                            !history.epsActual.fmt &&
+                                            !history.epsEstimate.fmt &&
+                                            !history.epsDifference.fmt
+                                        "
+                                    >
+                                        <span class="text">None Available</span>
+                                    </h6>
                                 </div>
                             </span>
                         </div>
@@ -536,8 +794,8 @@
                         <!-- right -->
                         <div class="col-12 col-md-6">
                             <div class="info_item">
-                                <h6>
-                                    Earnings Growth:
+                                <h6 v-if="financialData.earningsGrowth.fmt">
+                                    **Earnings Growth:
                                     <span class="text">{{
                                         financialData.earningsGrowth.fmt
                                     }}</span>
@@ -597,22 +855,55 @@
                                     }}</span>
                                 </h6>
                             </div>
-                            <!-- <div class="info_item">
-                                <h6 title="Estimates a company's likely earnings per share for the next 12 months">
-                                    Forward P/E:
+
+                            <div
+                                class="info_item"
+                                v-if="summaryDetail.forwardPE.fmt"
+                            >
+                                <h6
+                                    title="Estimates a company's likely earnings per share for the next 12 months"
+                                >
+                                    **Forward P/E:
                                     <span class="text">
                                         {{ summaryDetail.forwardPE.fmt }}
                                     </span>
                                 </h6>
                             </div>
-                            <div class="info_item">
-                                <h6 title="Calculated based on actual performance statistics rather than expected future performance (estimate)">
-                                    Trailing P/E:
+
+                            <!-- <div class="info_item">
+                                <h6
+                                    title="Calculated based on actual performance statistics rather than expected future performance (estimate)"
+                                >
+                                    **Trailing P/E:
                                     <span class="text">
                                         {{ summaryDetail.trailingPE.fmt }}
                                     </span>
                                 </h6>
                             </div> -->
+
+                            <div
+                                class="info_item"
+                                v-if="
+                                    summaryDetail.priceToSalesTrailing12Months
+                                        .fmt
+                                "
+                            >
+                                <h6
+                                    title="
+                                    The P/S ratio = company's market capitalization (the total value of all outstanding shares) / annual revenue based on actual performance over 12months"
+                                >
+                                    **Trailing
+                                    <abbr title="Price to sales">P2S</abbr>
+                                    (12Months):
+                                    <span class="text">
+                                        {{
+                                            summaryDetail
+                                                .priceToSalesTrailing12Months
+                                                .fmt
+                                        }}
+                                    </span>
+                                </h6>
+                            </div>
                             <div class="info_item">
                                 <h6>
                                     Gross Profits:
@@ -696,7 +987,7 @@
                             class="col-12 col-md-6 col-lg-4 mt-1"
                         >
                             <div class="info_item">
-                                <h6>
+                                <h6 class="text-underlined">
                                     Period:
                                     <span class="text">
                                         {{
@@ -705,36 +996,51 @@
                                         }}th ago
                                     </span>
                                 </h6>
-                                <h6>
-                                    Buy:
-                                    <span class="text">
-                                        {{ recommendation.buy }}
-                                    </span>
+
+                                <h6
+                                    v-if="
+                                        recommendation.buy == 0 &&
+                                        recommendation.hold == 0 &&
+                                        recommendation.sell == 0 &&
+                                        recommendation.strongBuy == 0 &&
+                                        recommendation.strongSell == 0
+                                    "
+                                >
+                                    <span class="text">None Available</span>
                                 </h6>
-                                <h6>
-                                    Hold:
-                                    <span class="text">
-                                        {{ recommendation.hold }}
-                                    </span>
-                                </h6>
-                                <h6>
-                                    Sell:
-                                    <span class="text">
-                                        {{ recommendation.sell }}
-                                    </span>
-                                </h6>
-                                <h6>
-                                    Strong Buy:
-                                    <span class="text">
-                                        {{ recommendation.strongBuy }}
-                                    </span>
-                                </h6>
-                                <h6>
-                                    Strong Sell:
-                                    <span class="text">
-                                        {{ recommendation.strongSell }}
-                                    </span>
-                                </h6>
+
+                                <span v-else>
+                                    <h6>
+                                        Buy:
+                                        <span class="text">
+                                            {{ recommendation.buy }}
+                                        </span>
+                                    </h6>
+                                    <h6>
+                                        Hold:
+                                        <span class="text">
+                                            {{ recommendation.hold }}
+                                        </span>
+                                    </h6>
+                                    <h6>
+                                        Sell:
+                                        <span class="text">
+                                            {{ recommendation.sell }}
+                                        </span>
+                                    </h6>
+                                    <h6>
+                                        Strong Buy:
+                                        <span class="text">
+                                            {{ recommendation.strongBuy }}
+                                        </span>
+                                    </h6>
+                                    <h6>
+                                        Strong Sell:
+                                        <span class="text">
+                                            {{ recommendation.strongSell }}
+                                        </span>
+                                    </h6>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -829,28 +1135,50 @@
                                 "
                             >
                                 <h6>
-                                    Buy:
-                                    <span class="text"> {{ buys }}, </span>
-                                    Sell:
-                                    <span class="text"> {{ sells }}, </span>
-                                    Hold:
-                                    <span class="text"> {{ holds }}, </span>
-                                    Outperforms:
-                                    <span class="text">
-                                        {{ outperforms }},
-                                    </span>
-                                    Overweight:
-                                    <span class="text">
-                                        {{ overweights }},
-                                    </span>
-                                    Underweight:
-                                    <span class="text">
-                                        {{ underweights }},
-                                    </span>
-                                    Neutral:
-                                    <span class="text">
-                                        {{ neutrals }}
-                                    </span>
+                                    <ul class="d-flex rating_list">
+                                        <li v-if="buys !== 0">
+                                            Buy:
+                                            <span class="text">
+                                                {{ buys }},
+                                            </span>
+                                        </li>
+                                        <li v-if="sells !== 0">
+                                            Sell:
+                                            <span class="text">
+                                                {{ sells }},
+                                            </span>
+                                        </li>
+                                        <li v-if="holds !== 0">
+                                            Hold:
+                                            <span class="text">
+                                                {{ holds }},
+                                            </span>
+                                        </li>
+                                        <li v-if="outperforms !== 0">
+                                            Outperforms:
+                                            <span class="text">
+                                                {{ outperforms }},
+                                            </span>
+                                        </li>
+                                        <li v-if="overweights !== 0">
+                                            Overweight:
+                                            <span class="text">
+                                                {{ overweights }},
+                                            </span>
+                                        </li>
+                                        <li v-if="underweights !== 0">
+                                            Underweight:
+                                            <span class="text">
+                                                {{ underweights }},
+                                            </span>
+                                        </li>
+                                        <li v-if="neutrals !== 0">
+                                            Neutral:
+                                            <span class="text">
+                                                {{ neutrals }}
+                                            </span>
+                                        </li>
+                                    </ul>
                                 </h6>
                             </div>
 
@@ -966,7 +1294,13 @@
 </template>
 
 <script>
+import $ from "jquery";
+import stockChart from "./stockChart.vue";
+
+import { mapGetters, mapActions } from "vuex";
+
 export default {
+    components: { stockChart },
     props: ["info"],
 
     data() {
@@ -987,15 +1321,39 @@ export default {
             overweights: 0,
             underweights: 0,
             neutrals: 0,
+
+            parameters: {
+                interval: "5m",
+                range: "1d",
+                symbol: this.stockSymbol,
+            },
         };
     },
 
     computed: {
+        ...mapGetters(["chartDetails"]),
+
         invalidInput() {
             return this.stockSymbol === "";
         },
 
+        stockChartDetails() {
+            return this.chartDetails;
+        },
+
         /* get all api result/data referenced from Main component */
+        isValidInfos() {
+            return (
+                this.assetProfile ||
+                this.defaultKeyStatistics ||
+                this.summaryDetail ||
+                this.financialData ||
+                this.earningsHistory ||
+                this.calendarEvents ||
+                this.recommendationTrend ||
+                this.upgradeDowngradeHistory
+            );
+        },
         assetProfile() {
             return this.info.assetProfile;
         },
@@ -1185,6 +1543,12 @@ export default {
     },
 
     methods: {
+        ...mapActions(["fetchChartDetails"]),
+
+        fetchChart() {
+            this.fetchChartDetails(this.parameters);
+        },
+
         searchStock() {
             /* search if there is an input */
             if (!this.invalidInput) {
@@ -1196,6 +1560,10 @@ export default {
 
                 /* call fetchCompanyInfo from action using inputted name as argument */
                 this.$store.dispatch("fetchCompanyInfo", this.name);
+                this.parameters.symbol = this.name;
+
+                console.log(this.parameters.symbol);
+                this.fetchChart();
 
                 // if (this.info == null) {
                 //     this.showErrorMessage = true;
@@ -1215,6 +1583,16 @@ export default {
         prevTwentyHistory() {
             this.page = Math.max(this.page - 1, 1);
         },
+
+        toggleOfficers() {
+            const $title = $(".toggle_officers_tab h6"),
+                $text = $(".toggle_officers_tab .text"),
+                $toggleArrow = $(".toggle_officers_tab .tab_arrow");
+
+            $title.toggleClass("addBlueClass");
+            $text.toggleClass("addBlueClass");
+            $toggleArrow.toggleClass("toggleOfficerClass");
+        },
     },
 
     mounted() {
@@ -1227,7 +1605,9 @@ export default {
     created() {
         /* pass in default symbol and run search once to have default first time data */
         this.stockSymbol = "IDEX";
+        this.parameters.symbol = "IDEX";
         this.searchStock();
+        this.fetchChart();
     },
 };
 </script>
@@ -1266,7 +1646,7 @@ export default {
 }
 
 .stock_search_form input:valid {
-    border-color: #0d6ef8;
+    border-color: var(--lightBlue);
 }
 
 .stock_search_form input:valid ~ .stock_search_label,
@@ -1275,7 +1655,7 @@ export default {
     left: 5px;
     font-size: 0.825rem;
     background-color: #fff;
-    color: #0d6ef8;
+    color: var(--lightBlue);
 }
 
 #search_button {
@@ -1286,8 +1666,8 @@ export default {
 }
 
 .stock_search_form input:valid ~ #search_button {
-    background-color: #0d6ef8;
-    border-color: #0d6ef8;
+    background-color: var(--lightBlue);
+    border-color: var(--lightBlue);
 }
 
 .stock_search_form input:valid ~ #search_button:hover {
@@ -1328,7 +1708,7 @@ export default {
 
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
-    color: #0d6ef8;
+    color: var(--lightBlue);
     background-color: var(--customWhite);
     border-width: 2px;
 }
@@ -1353,7 +1733,8 @@ export default {
 }
 
 .tab-content > .tab-pane .info_item h6 {
-    line-height: 1.5rem;
+    /* line-height: 1.5rem; */
+    line-height: 1.375rem;
 }
 
 .tab-content > .tab-pane .info_item .text {
@@ -1375,6 +1756,54 @@ export default {
     text-decoration: underline;
 }
 
+.tab-content > .tab-pane .info_item .company_officers .text a {
+    display: none;
+    margin-left: 4px;
+    color: var(--lightBlue);
+}
+
+.tab-content > .tab-pane .info_item .company_officers:hover .text a {
+    display: inline-flex;
+}
+
+.toggle_officers_tab .tab_arrow {
+    display: inline-flex;
+    width: 0.5625rem;
+    height: 0.5625rem;
+    border-style: solid;
+    border-width: 0px 3px 3px 0px;
+    border-radius: 1px 3px 1px 3px;
+    margin-left: 25px;
+    vertical-align: unset;
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    color: var(--black);
+    -o-transition: border-width;
+    -moz-transition: border-width;
+    -webkit-transition: border-width;
+    transition: border-width;
+}
+
+.toggleOfficerClass {
+    -o-transform: rotate(45deg) !important;
+    -ms-transform: rotate(45deg) !important;
+    -moz-transform: rotate(45deg) !important;
+    -webkit-transform: rotate(45deg) !important;
+    transform: rotate(45deg) !important;
+    vertical-align: text-top !important;
+    color: var(--lightBlue) !important;
+}
+
+.addBlueClass,
+.toggle_officers_tab:hover .tab_arrow,
+.toggle_officers_tab:hover h6,
+.toggle_officers_tab:hover .text {
+    color: var(--lightBlue) !important;
+}
+
 #udGradeHistory .info_item button.text {
     color: #fff;
     min-width: 4.5rem;
@@ -1382,6 +1811,20 @@ export default {
 
 #udGradeHistory .info_item button.text:not(:first-child) {
     margin-left: 8px;
+}
+
+.rating_list {
+    padding-left: 0;
+    flex-wrap: wrap;
+}
+
+.rating_list li {
+    width: max-content;
+    list-style: none;
+}
+
+.rating_list li:not(:last-child) {
+    margin-right: 10px;
 }
 
 #udGradeHistory hr {

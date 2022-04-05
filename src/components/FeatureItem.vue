@@ -14,7 +14,11 @@
 
             <div class="card-body">
                 <h5 class="card-title">
-                    <a :href="`${assetProfile.website}`" target="_blank">
+                    <a
+                        :href="`${assetProfile.website}`"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         {{ assetProfile.sector }}
                     </a>
                     <span class="small_text">{{ assetProfile.sector }}</span>
@@ -24,7 +28,10 @@
                     <span class="desc">
                         {{ assetProfile.longBusinessSummary }}
                     </span>
-                    <a :href="`${assetProfile.website}`" target="_blank"
+                    <a
+                        :href="`${assetProfile.website}`"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         >Read More</a
                     >
                 </p>

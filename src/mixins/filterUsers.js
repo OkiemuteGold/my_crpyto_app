@@ -8,6 +8,46 @@
 //         };
 //     },
 //     methods: {
+//         eliminateDuplicateNames(allSymbols) {
+//             let arrValues = [];
+//             for (let i = 0; i < allSymbols.length; i++) {
+//                 if (arrValues.indexOf(allSymbols[i]) === -1) {
+//                     arrValues.push(allSymbols[i]);
+
+//                     arrValues = arrValues.sort((a, b) => {
+//                         return a < b ? -1 : 1;
+//                     });
+//                 }
+//             }
+
+//             return arrValues;
+//         },
+
+//         eliminateDuplicateIds: function (arr) {
+//             return arr
+//                 .map((e) => e["id"])
+//                 .map((e, i, final) => final.indexOf(e) === i && i)
+//                 .filter((obj) => arr[obj])
+//                 .map((e) => arr[e]);
+//         },
+
+//         getFirstLetters() {
+//             let allData = this.cryptoData;
+
+//             let allSymbols = allData.map((data) => {
+//                 let sym = data.symbol;
+//                 let firstLetter = sym.charAt(0).toUpperCase();
+
+//                 return firstLetter;
+//             });
+
+//             let allSortedSymbols = allSymbols.sort((a, b) => {
+//                 return a < b ? -1 : 1;
+//             });
+
+//             return allSortedSymbols;
+//         },
+
 //         filter_active_inactive() {
 //             if (this.status != null) {
 //                 var status = this.status;

@@ -1,36 +1,36 @@
 <template>
-    <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4" v-if="currency">
+    <div class="col-12 col-md-6 col-lg-4 col-xl-3 my-3" v-if="crypto">
         <div class="card border-0">
-            <img
+            <!-- <img
                 src="../assets/images/samp1.jpg"
                 class="card-img-top"
-                alt="..."
+                :alt="crypto.symbol"
                 width="100%"
-                height="80"
+                height="100"
                 role="img"
                 aria-label="Placeholder: Thumbnail"
                 focusable="false"
-            />
+            /> -->
 
-            <div class="card-body">
+            <div class="card-body py-4">
                 <h5 class="card-title">
-                    <span class="small_text">{{ currency.symbol }}</span>
+                    <span class="small_text">{{ crypto.symbol }}</span>
                 </h5>
 
                 <h6 class="card-text">
                     Last Trade Price:
-                    <span> $ {{ currency.last_trade_price }} </span>
+                    <span> $ {{ crypto.last_trade_price }} </span>
                 </h6>
 
                 <h6 class="card-text">
                     Price in 24hrs:
-                    <span> $ {{ currency.price_24h }} </span>
+                    <span> $ {{ crypto.price_24h }} </span>
                 </h6>
 
-                <h6 class="card-text mb-2">
+                <h6 class="card-text mb-0">
                     Volume in 24hrs:
                     <span>
-                        {{ currency.volume_24h }}
+                        {{ crypto.volume_24h }}
                     </span>
                 </h6>
             </div>
@@ -40,18 +40,18 @@
 
 <script>
 export default {
-    props: ["currency"],
+    props: ["crypto"],
 
     mounted() {
-        console.log(this.currency);
+        // console.log(this.crypto);
     },
 };
 </script>
 
 <style scoped>
 .card {
-    background: var(--lightBlue);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    background: var(--darkBlue);
+    box-shadow: 0.125rem 0.35rem 0.75rem rgba(0, 0, 0, 0.2);
 }
 
 .card:hover {
@@ -59,6 +59,7 @@ export default {
     -moz-transform: translateY(-5px);
     -webkit-transform: translateY(-5px);
     transform: translateY(-5px);
+    box-shadow: 0.125rem 0.25rem 0.5rem -0.125rem rgba(0, 0, 0, 0.2);
 }
 
 .card img {

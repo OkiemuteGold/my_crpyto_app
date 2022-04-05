@@ -1,3 +1,3 @@
 export default {
-    key: 'KgsHEKqRzY4vBFZcpbc9i28tz4zXcg5t5wUnEr4d'
+    key: 'qMsimadWWo8ClCdIu8DXr9eWSLvP5SAga8Mh062R'
 }

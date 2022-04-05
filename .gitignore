@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 /dist
-/API_KEY.js
+/key.js
+/model.txt
 .env
 
 

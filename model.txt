@@ -1,3 +1,34 @@
 https://investor.apple.com/investor-relations/default.aspx
 
 https://stocknewsapi.com/
+
+
+Calculate Profit and Loss percent and values... 
+Determine when it's safer to buy or take profit... Value within 20-50% is a cool short term risk-level.
+
+
+*Tech Analysis
+Up/Down Trends and others
+
+*P/E
+Value Inv: Low P/E.
+Growth Inv: High P/E.
+
+Use the company's current and past P/E ratios to calculate: forward P/E ratio and (PEG) ratio.
+
+
+
+Use chart lib... with endpoint...
+
+1w...Runs 5mins each point
+1m, 3m...Runs 1day each point
+1y, 5y...Runs 1w each point
+
+chart.result[0].meta.validRanges
+
+How do you generate/determine a healthy investment objective.
+Since P/E ratios can be viewed differently by different investors depending on their investment objectives... Infact almost every decision is tied to personal objectives... 
+And stay at a Healthy risk level too.
+
+
+

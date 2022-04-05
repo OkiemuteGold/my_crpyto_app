@@ -334,10 +334,10 @@ export default {
             // activeSortBtn.classList.add("active");
         },
 
-        fetchStocks(symbol, event) {
+        fetchStocks(symbols, event) {
             this.changeCategoryActive(event);
 
-            this.fetchStockDetails(symbol);
+            this.fetchStockDetails(symbols);
         },
 
         sortStocks(categoryName, event) {
@@ -345,6 +345,11 @@ export default {
 
             if (categoryName === "Alphabetically") {
                 this.stockDetails.sort((a, b) => {
+                    if (!(a.displayName && b.displayName)) {
+                        a.displayName = a.longName;
+                        b.displayName = b.longName;
+                    }
+
                     return a - b;
                 });
 
@@ -375,6 +380,13 @@ export default {
 
 .feature_buttons span.active {
     background-color: var(--textColor);
+}
+
+.feature_buttons span:hover,
+.feature_buttons span.active {
+    background-color: var(--lightBlue);
+    color: #fff;
+    border-color: var(--lightBlue);
 }
 
 @media screen and (max-width: 541px) {
